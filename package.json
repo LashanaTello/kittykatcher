@@ -1,0 +1,16 @@
+{
+  "name": "kittykatcher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\"",
+		"dev": "concurrently \"cd backend && nodemon server.js\" \"cd client && npm start\""
+  },
+  "keywords": [],
+  "author": "Lashana Tello",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^4.1.0"
+  }
+}
