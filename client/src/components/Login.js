@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 
 class Login extends Component {
 	state = {
-		username: null,
+		email: null,
 		password: null,
+		errors: {}
 	}
 
 	handleChange = (e) => {
@@ -14,18 +15,25 @@ class Login extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(this.state);
+
+		const userData = {
+	      email: this.state.email,
+	      password: this.state.password
+	    };
+	    console.log(userData);
+		//console.log(this.state);
 	}
 
 	render() {
+		const { errors } = this.state;
 		return (
 			<div className="container">
 				<h4 className="center">Login!</h4>
 				<form onSubmit={this.handleSubmit} >
-					<label htmlFor="username">Email:</label>
-					<input type="text" id="username" onChange={this.handleChange} />
+					<label htmlFor="email">Email:</label>
+					<input type="text" id="email" onChange={this.handleChange} error={errors.email} />
 					<label htmlFor="password">Password:</label>
-					<input type="password" id="password" onChange={this.handleChange} />
+					<input type="password" id="password" onChange={this.handleChange} error={errors.password} />
 					<button>Login</button>
 				</form>
 			</div>
