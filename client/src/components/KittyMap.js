@@ -1,47 +1,58 @@
 import React, { Component } from 'react';
-import ReactMapGL, { NavigationControl } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
-const TOKEN = require('../apiKeys');
-
-
-const navStyle = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    padding: '10px'
+const mapStyle = {
+    height: '800px',
+    width: '800px'
 };
 
-class KittyMap extends Component {
-    state = {
-        viewport: {
-            width: 800,
-            height: 800,
-            latitude: 37.7577,
-            longitude: -122.4376,
-            zoom: 8,
-            bearing: 0,
-            pitch: 0
-        }
-    }
+var myIcon = L.icon({
+    iconUrl: 'https://image.flaticon.com/icons/svg/616/616430.svg',
+    iconSize: [41, 30],
+    iconAnchor: [22, 30],
+    popupAnchor: [-2, -25]
+});
 
-	render() {
-		return (
-            <div className="container">
-                <h4>Kitty Map</h4>
-    			<ReactMapGL
-                    {...this.state.viewport}
-                    mapStyle="mapbox://styles/mapbox/dark-v9"
-                    mapboxApiAccessToken={TOKEN.mapboxToken}                
-                    onViewportChange={(viewport) => this.setState({viewport})}
-                >
-                    <div className="nav" style={navStyle}>
-                      <NavigationControl onViewportChange={(viewport) => this.setState({viewport})} />
-                    </div>                
-    			</ReactMapGL>
-            </div>
-		);
-	}
+
+class KittyMap extends Component {
+  constructor() {
+    super();
+    this.state = {
+      lat: 40.7645,
+      lng: -73.9602,
+      zoom: 13
+    };
+  }
+
+  handleClick = (e) => {
+    const map = this.refs.map.leafletElement;
+
+    if (map != null) {
+        var newMarker = new L.Marker(e.latlng, {icon: myIcon}).addTo(map);
+        newMarker.bindPopup(`<h2>hi</h2><br/><p>bye</p>`);
+    }
+  }
+
+  render() {
+    const position = [this.state.lat, this.state.lng];
+
+    return ( 
+      <Map ref='map' style={mapStyle} center={position} zoom={this.state.zoom} onClick={this.handleClick}>
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={position} icon={myIcon}>
+          <Popup>
+            A pretty CSS3 popup. <br/> Easily customizable.
+          </Popup>
+        </Marker>
+      </Map>
+    );
+  }
 }
+
 
 export default KittyMap;

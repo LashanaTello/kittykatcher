@@ -12,22 +12,22 @@ class Login extends Component {
 	}
 
 	componentDidMount() {
-	    // If logged in and user navigates to Login page, should redirect them to dashboard
-	    if (this.props.auth.isAuthenticated) {
-	      this.props.history.push("/dashboard");
-	    }
+  	// If logged in and user navigates to Login page, should redirect them to dashboard
+  	if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
   	}
+  }
 
 	componentWillReceiveProps(nextProps) {
-	    if (nextProps.auth.isAuthenticated) {
-	      this.props.history.push("/dashboard"); // push user to dashboard when they login
-	    }
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard"); // push user to dashboard when they login
+    }
 
 		if (nextProps.errors) {
-	      this.setState({
-	        errors: nextProps.errors
-	      });
-	    }
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
 	}
 
 	handleChange = (e) => {
@@ -40,10 +40,10 @@ class Login extends Component {
 		e.preventDefault();
 
 		const userData = {
-	      email: this.state.email,
-	      password: this.state.password
-	    };
-	    console.log(userData);
+      email: this.state.email,
+      password: this.state.password
+    };
+    console.log(userData);
 		//console.log(this.state);
 		this.props.loginUser(userData);
 	}
@@ -69,7 +69,7 @@ class Login extends Component {
 					</div>
 				</form>
 			</div>
-		)
+		);
 	}
 }
 
