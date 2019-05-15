@@ -16,7 +16,6 @@ const User = require("../../models/User");
 // @access Public
 router.post("/register", (req, res) => {
   // Form validation
-
   const { errors, isValid } = validateRegisterInput(req.body);
 
   // Check validation
@@ -69,7 +68,7 @@ router.post("/login", (req, res) => {
   User.findOne({ email }).then(user => {
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ emailnotfound: "Email not found" }); /*remember to change this*/
+      return res.status(404).json({ emailnotfound: "Invalid credentials" }); /*remember to change this*/
     }
 
     // Check password
@@ -99,7 +98,7 @@ router.post("/login", (req, res) => {
       } else {
         return res
           .status(400)
-          .json({ passwordincorrect: "Password incorrect" }); /*remember to change this*/
+          .json({ passwordincorrect: "Invalid credentials" }); /*remember to change this*/
       }
     });
   });

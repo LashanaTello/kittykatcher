@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import KittyPostForm from './KittyPostForm'
 import CantPost from './CantPost'
 
@@ -61,7 +61,7 @@ class KittyMap extends Component {
       map.addLayer(newMarker);
     }
     if (this.props.auth.isAuthenticated) {
-      newMarker.bindPopup("Fill out the form below to add a cat to the map!", customOptions).openPopup();
+      newMarker.bindPopup("Fill out the form below to add a cat to the map at this spot!", customOptions).openPopup();
       if (!this.state.displayForm) {
         this.display();
       }
@@ -87,7 +87,7 @@ class KittyMap extends Component {
       <div className="container">
         <div className="row">
           <div className="center col s12">
-            <h5>Add A Kitty Map!</h5>
+            <h5>Add A Kitty To The Map!</h5>
           </div>
         </div>
         <div className="row">
@@ -112,7 +112,7 @@ class KittyMap extends Component {
               this.state.displayForm && <button className="right" onClick={this.display}>X</button>
             }
             {
-              (this.state.displayCantPost && <CantPost />) || (!this.state.displayCantPost && this.state.displayForm && <KittyPostForm />) 
+              (this.state.displayCantPost && <CantPost />) || (!this.state.displayCantPost && this.state.displayForm && <KittyPostForm coords={newMarker.getLatLng()} />) 
             }
           </div>
         </div>
@@ -127,28 +127,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(KittyMap);
-/*
-<div className="row">
-              <div className="col s12 m12">
-                <div className="card">
-                  <div className="card-content">
-                    <span className="card-title"><h4>Sign up to find out more about Two Lanterns.</h4></span>
-                      <form className="container">
-                        <div className="row">
-
-                          <div className="input-field col m6">
-                            <input id="email" type="email" className="validate" />
-                            <label htmlFor="email">Email</label>
-                          </div>
-                          <div className="input-field col m6">
-                            <button className="btn waves-effect waves-light" type="submit" name="action">
-                              <i className="material-icons right">send</i>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-*/
