@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import KittyPostForm from './KittyPostForm'
-import CantPost from './CantPost'
+import KittyPostForm from './KittyPostForm';
+import CantPost from './CantPost';
+import axios from 'axios';
 
 const mapStyle = {
   height: '85vh',
@@ -26,6 +28,10 @@ var customOptions = {
   'className': 'custom-popup'
 };
 
+var locations = [];
+var users = [];
+var titles = [];
+
 class KittyMap extends Component {
   constructor() {
     super();
@@ -34,11 +40,54 @@ class KittyMap extends Component {
       lng: -73.9602,
       zoom: 13,
       maxZoom: 19,
-      markers: [],
       displayForm: false,
       displayCantPost: false
     };
   }
+
+  componentDidMount() {
+    const map = this.refs.map.leafletElement;
+    this.addAllMarkers(map);
+  }
+
+  async addAllMarkers(map) {
+    //  temporarily here
+    await axios
+      .get("/api/posts/allCats")
+      .then(res => {
+        locations = res.data.map(single => single.location);
+        users = res.data.map(single => single.posterUsername);
+        titles = res.data.map(single => single.title);
+      }) 
+      .catch(err => console.log(err));
+
+    for (var i = 0; i < locations.length; i++) {  
+      var feat = this.createGeoJSON(titles[i], locations[i], users[i]);
+      L.geoJSON(feat, {
+        pointToLayer: (feature, latlng) => {
+          return L.marker(latlng, {icon: myIcon}).bindPopup(`
+            <h6>${feat.properties.title}</h6>
+            <p>Post by: ${feat.properties.user}</p>
+          `);
+        }
+      }).addTo(map);
+    }
+  }
+
+  createGeoJSON(aTitle, coords, aUser) {
+    var feature = {
+      "type"    : "Feature",
+      "geometry"  : {
+        "type"        : "Point",
+        "coordinates" : [coords.coordinates[1], coords.coordinates[0]]
+      },
+      "properties"  : {
+        "title"   : aTitle,
+        "user" : aUser
+      }
+    };
+    return feature;
+  };
 
   display = () => {
     this.setState({
@@ -49,15 +98,10 @@ class KittyMap extends Component {
   handleClick = (e) => {
     const map = this.refs.map.leafletElement;
     if (map != null) {
-      //var newMarker = new L.Marker(e.latlng, {icon: myIcon}).addTo(map);
       if (newMarker !== undefined) {
         map.removeLayer(newMarker);
-        this.setState({
-          markers: this.state.markers.filter(marker => marker !== this.state.markers[0])
-        });
       }
       newMarker = new L.Marker(e.latlng, {icon: myIcon});
-      this.state.markers.push(newMarker);
       map.addLayer(newMarker);
     }
     if (this.props.auth.isAuthenticated) {
@@ -78,11 +122,11 @@ class KittyMap extends Component {
         })
       }
     }
-    
   }
 
   render() {
     const position = [this.state.lat, this.state.lng];
+
     return (
       <div className="container">
         <div className="row">
@@ -96,12 +140,12 @@ class KittyMap extends Component {
               <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-              />
+              />              
               <Marker position={position} icon={myIcon}>
                 <Popup>
                   Click anywhere on the map to add a cat at that location to the map!
                 </Popup>
-              </Marker>
+              </Marker>              
             </Map>
           </div>
         </div>
@@ -109,7 +153,7 @@ class KittyMap extends Component {
         <div className="row">
           <div className="col s12">
             {
-              this.state.displayForm && <button className="right" onClick={this.display}>X</button>
+              this.state.displayForm && <button className="right btn-small grey" onClick={this.display}><i className="material-icons">clear</i></button>
             }
             {
               (this.state.displayCantPost && <CantPost />) || (!this.state.displayCantPost && this.state.displayForm && <KittyPostForm coords={newMarker.getLatLng()} />) 
@@ -121,9 +165,12 @@ class KittyMap extends Component {
   }
 }
 
+KittyMap.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
 });
 
 export default connect(mapStateToProps)(KittyMap);

@@ -48,4 +48,14 @@ router.post('/upload', (req, res) => {
   });
 });
 
+router.get('/allCats', (req, res) => {
+  Post.find({}, (err, allPosts) => {
+    if (err) {
+      res.send("Something went wrong");
+      next();
+    }
+    res.json(allPosts)
+  });
+});
+
 module.exports = router;

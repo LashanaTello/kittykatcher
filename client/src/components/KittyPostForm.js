@@ -87,11 +87,13 @@ class KittyPostForm extends Component {
         //handle success
         console.log(response);
         console.log("successful");
+        alert("Success!");
     })
     .catch(err => {
         //handle error
         console.log(err);
         console.log("failed");
+        alert("Oops! Falied.");
     });
   }
 
@@ -273,13 +275,12 @@ class KittyPostForm extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="center col s12">
+              <div className="center input-field col s12">
                 <p>Other Info (where the cat likes to be, what time of day do you see them the most, what food do they like to eat, etc...):</p>
                 <textarea 
                   name="details" 
                   id="details" 
-                  rows="30" 
-                  cols="30" 
+                  className="materialize-textarea"
                   placeholder="Likes chicken more than fish. Always near garbage at local diner around 6pm."
                   onChange={this.handleChange}
                 ></textarea>
@@ -287,13 +288,24 @@ class KittyPostForm extends Component {
             </div>
             <div className="row">
               <div className="center col s12">
-              	<p>Upload any pictures of the cat:</p>
-                <input type="file" ref={this.state.fileInput} name="fileInput" accept="image/*" multiple /> 
+                <div className="file-field input-field">
+                  <div className="btn pink lighten-3">
+                    <span>Choose files</span>
+                    <input type="file" ref={this.state.fileInput} name="fileInput" accept="image/*" multiple />
+                  </div>
+                  <div className="file-path-wrapper">
+                    <input className="file-path validate" type="text" placeholder="Upload any pictures of the cat" />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="row">
               <div className="center col s12">
-                <button>Post</button>
+                <button className="btn-large pink lighten-3 waves-effect waves-light">
+                  <span>Post</span>
+                  <i className="material-icons right">add_circle_outline</i>
+                  {  <h3>{this.state.message}</h3>}
+                </button>
               </div>
             </div>
           </div>
