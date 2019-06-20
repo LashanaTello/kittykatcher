@@ -1,14 +1,213 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Prompt', sans-serif;
+  background-color: #1d3461;
+  background-color: #068d9d;
+  background-color: #06818f;
 }
 
 .custom-popup .leaflet-popup-content-wrapper,
 .custom-popup .leaflet-popup-tip {
-  background: #f48fb1;
+  background: #f49f0a;
+  background-image: url("https://kittykatcher.s3.amazonaws.com/animal-prints.svg"), url("https://kittykatcher.s3.amazonaws.com/animal-prints.svg");
+  background-repeat: no-repeat;
+  background-position: left top, bottom right;
+  background-size: 175px 175px, 75px 75px;
+  background-attachment: local;  
 }
 
+/*
+other text color I like
+  color: #1d354f;
+
+other popup colors I like
+    background: #044389;
+    background: #437c90;
+}
+*/
+
 .custom-popup .leaflet-popup-content-wrapper {
-  
+  max-width: 400px;
+  max-height: 400px;
+  min-width: 300px;
+  overflow: auto;
+}
+
+.my-grid {
+  display: grid;
+  grid-template-rows: repeat(10, auto);
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 7px;
+  grid-template-areas: 
+    "status ."
+    "title title"
+    "pic pic"
+    "info more-info"
+    "info more-info"
+    "info more-info"
+    "separator separator"
+    "post-by claim-by"
+    "post-date claim-date"
+    "prev-stat prev-stat";
+}
+
+.status-area {
+  grid-area: status;
+  font-weight: bolder; 
+}
+
+.post-title {
+  text-align: center;
+  font-size: 1.5vw;
+  grid-area: title;
+}
+
+.picture-area {
+  grid-area: pic;
+}
+
+.picture-area > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  min-width: 100%;
+  width: 200px;
+  height: 100px;
+}
+
+.info-area {
+  grid-area: info;
+  font-size: 1.1vw;
+}
+
+.more-info-area {
+  grid-area: more-info;
+  font-size: 1.1vw;
+}
+
+.separates {
+  grid-area: separator;
+}
+
+.posted-by {
+  grid-area: post-by;
+  display: inline-grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 2fr;
+  grid-column-gap: 8px;
+  grid-template-areas: 
+  "prof-pic prof-name";
+}
+
+.posted-by > img {
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px white;
+  margin-top: 8px;
+  object-fit: cover;
+  max-width: 3vw;
+  max-height: 3vh;
+}
+
+.post-pic {
+  grid-area: prof-pic;
+}
+
+.poster-name {
+  grid-area: prof-name;
+  align-self: center;
+}
+
+.claimed-by {
+  grid-area: claim-by;
+  display: inline-grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 2fr;
+  grid-column-gap: 8px;
+  grid-template-areas: 
+  "picture name";
+}
+
+.claimed-by > img {
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px black;
+  margin-top: 8px;
+  object-fit: cover;
+  max-width: 3vw;
+  max-height: 3vh;
+}
+
+.claim-pic {
+  grid-area: picture;
+}
+
+.claimer-name {
+  grid-area: name;
+  align-self: center;
+}
+
+.posted-date {
+  grid-area: post-date;
+  font-style: italic;
+}
+
+.claimed-date {
+  grid-area: claim-date;
+}
+
+.prev-status {
+  grid-area: prev-stat;
+  font-style: italic;
+}
+
+.headline-font {
+  font-family: 'Fredoka One', cursive;
+}
+
+.sub-heading-font {
+  font-family: 'Baloo Thambi', cursive;
+}
+
+.text-font {
+  font-family: 'Prompt', sans-serif;
+}
+
+.white-color {
+  color: white;
+}
+
+
+.custom-message .leaflet-popup-content-wrapper, 
+.custom-message .leaflet-popup-tip {
+  background: #ff4081;
+}
+
+.custom-message .leaflet-popup-content-wrapper {
+  max-width: 400px;
+  font-family: 'Baloo Thambi', cursive;
+  text-align: center;
+  font-size: 1.1vw;
+}
+
+.cant-post-popup .leaflet-popup-content-wrapper, 
+.cant-post-popup .leaflet-popup-tip {
+  max-width: 200px;
+  font-family: 'Baloo Thambi', cursive;
+  text-align: center;
+  font-size: 1.5vw;
+  background: #f49f0a;
+}
+
+.special-radio [type=radio] + img {
+  cursor: pointer;
+}
+
+.special-radio [type=radio]:checked + img {
+  outline: 5px solid #f49f0a;
+}
+
+.special-radio img {
+  max-width: 7vw;
+  max-height: 7vh;
 }

@@ -9,6 +9,7 @@ module.exports = function validateRegisterInput(data) {
   data.email = !isEmpty(data.email) ? data.email : "";
   data.password = !isEmpty(data.password) ? data.password : "";
   data.password2 = !isEmpty(data.password2) ? data.password2 : "";
+  data.avatar = !isEmpty(data.avatar) ? data.avatar : "";
 
   // Name checks
   if (Validator.isEmpty(data.username)) {
@@ -29,6 +30,10 @@ module.exports = function validateRegisterInput(data) {
 
   if (Validator.isEmpty(data.password2)) {
     errors.password2 = "Confirm password field is required";
+  }
+
+  if (Validator.isEmpty(data.avatar)) {
+    errors.avatar = "You must select an avatar";
   }
 
   if (!Validator.isLength(data.password, { min: 6, max: 30 })) {

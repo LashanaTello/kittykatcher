@@ -10,7 +10,7 @@ const CantPost = () => {
       </div>
       <div className="center">
         <NavLink to='/register'>Sign Up</NavLink>
-          </div>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../store/actions/authActions';
@@ -7,6 +8,7 @@ class Dashboard extends Component {
   handleLogout = (e) => {
     e.preventDefault();
     this.props.logoutUser();
+    this.props.history.push("/");
   };
 
   render() {
@@ -48,4 +50,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { logoutUser })(Dashboard);
+export default connect(mapStateToProps, { logoutUser })(withRouter(Dashboard));

@@ -5,7 +5,9 @@ import jwt_decode from 'jwt-decode';
 import {
   GET_ERRORS,
   SET_CURRENT_USER,
-  USER_LOADING
+  USER_LOADING,
+  GET_USERS_AND_AVATARS,
+  GET_USERS_AND_AVATARS_LOADING
 } from './types';
 
 // Register User
@@ -28,7 +30,7 @@ export const loginUser = userData => dispatch => {
     .then(res => {
       // Save to localStorage
 
-// Set token to localStorage
+      // Set token to localStorage
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
       // Set token to Auth header
@@ -70,3 +72,36 @@ export const logoutUser = () => dispatch => {
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
 };
+
+
+// Get All Users With Their Avatars
+export const getUsersAndAvatars = () => dispatch => {
+  dispatch(getUsersAndAvatarsLoading(true));
+
+  axios
+    .get("/api/users/avatars")
+    .then(res => {
+      dispatch(getUsersAndAvatarsSuccess(res.data));
+      dispatch(getUsersAndAvatarsLoading(false));
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const getUsersAndAvatarsSuccess = usersAndAvs => {
+  return {
+    type: GET_USERS_AND_AVATARS,
+    payload: [...usersAndAvs]
+  };
+}
+
+export const getUsersAndAvatarsLoading = truthValue => {
+  return {
+    type: GET_USERS_AND_AVATARS_LOADING,
+    payload: truthValue
+  };
+}

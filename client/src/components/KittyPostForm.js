@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import axios from 'axios';
+import { addPost } from '../store/actions/postActions';
 const FormData = require('form-data');
 
 
 class KittyPostForm extends Component {
   state = {
-    postTitle: null,
-    age: null,
-    sex: null,
+    postTitle: "",
+    age: "",
+    sex: "",
     furColors: [
       {id: 1, value: "black", isChecked: false},
       {id: 2, value: "white", isChecked: false},
@@ -18,9 +19,9 @@ class KittyPostForm extends Component {
       {id: 5, value: "gray", isChecked: false},
       {id: 6, value: "hairless", isChecked: false}
     ],
-    furPattern: null,
-    friendly: null,
-    details: null,
+    furPattern: "",
+    friendly: "",
+    details: "",
     fileInput: React.createRef(),
     errors: {}
   }
@@ -73,28 +74,8 @@ class KittyPostForm extends Component {
     for (var i = 0; i < this.state.fileInput.current.files.length; i++) { 
       form.append("fileInput", this.state.fileInput.current.files[i], this.state.fileInput.current.files[i].name);
     }
-    
-    //temporarily placed here
-    axios({
-      method: 'post',
-      url: "/api/posts/upload",
-      data: form,
-      headers: { 
-        "Content-Type": `multipart/form-data; boundary=${form._boundary}`
-      }
-    })
-    .then(response => {
-        //handle success
-        console.log(response);
-        console.log("successful");
-        alert("Success!");
-    })
-    .catch(err => {
-        //handle error
-        console.log(err);
-        console.log("failed");
-        alert("Oops! Falied.");
-    });
+
+    this.props.addPost(form);
   }
 
 	render() {
@@ -114,8 +95,8 @@ class KittyPostForm extends Component {
                 <p>Age:</p>                                     
                 <p>
                   <label>
-                    <input type="radio" name="age" value="cat" onChange={this.handleInputChange} required /> 
-                    <span>Cat</span>
+                    <input type="radio" name="age" value="adult cat" onChange={this.handleInputChange} required /> 
+                    <span>Adult Cat</span>
                   </label>
                 </p>
                 <p>
@@ -197,25 +178,25 @@ class KittyPostForm extends Component {
                 </p>
                 <p>
                   <label>
-                    <input type="radio" name="furPattern" value="tabbyStriped" onChange={this.handleInputChange} required /> 
+                    <input type="radio" name="furPattern" value="tabby-striped" onChange={this.handleInputChange} required /> 
                     <span>Tabby-Striped</span>
                   </label>
                 </p>
                 <p>
                   <label>
-                    <input type="radio" name="furPattern" value="tabbySpotted" onChange={this.handleInputChange} required /> 
+                    <input type="radio" name="furPattern" value="tabby-spotted" onChange={this.handleInputChange} required /> 
                     <span>Tabby-Spotted</span>
                   </label>
                 </p>
                 <p>
                   <label>
-                    <input type="radio" name="furPattern" value="tabbyBlotched" onChange={this.handleInputChange} required /> 
+                    <input type="radio" name="furPattern" value="tabby-blotched" onChange={this.handleInputChange} required /> 
                     <span>Tabby-Blotched</span>
                   </label>
                 </p>
                 <p>
                   <label>
-                    <input type="radio" name="furPattern" value="tabbyTicked" onChange={this.handleInputChange} required /> 
+                    <input type="radio" name="furPattern" value="tabby-ticked" onChange={this.handleInputChange} required /> 
                     <span>Tabby-Ticked</span>
                   </label>
                 </p>
@@ -262,7 +243,7 @@ class KittyPostForm extends Component {
                 </p>
         		    <p>
       		        <label>
-      		        	<input type="radio" name="friendly" value="somewhatFriendly" onChange={this.handleInputChange} required /> 
+      		        	<input type="radio" name="friendly" value="somewhat friendly" onChange={this.handleInputChange} required /> 
       		        	<span>Somewhat Friendly</span>
       		        </label>
         		    </p>
@@ -289,7 +270,7 @@ class KittyPostForm extends Component {
             <div className="row">
               <div className="center col s12">
                 <div className="file-field input-field">
-                  <div className="btn pink lighten-3">
+                  <div className="btn grey">
                     <span>Choose files</span>
                     <input type="file" ref={this.state.fileInput} name="fileInput" accept="image/*" multiple />
                   </div>
@@ -301,10 +282,9 @@ class KittyPostForm extends Component {
             </div>
             <div className="row">
               <div className="center col s12">
-                <button className="btn-large pink lighten-3 waves-effect waves-light">
+                <button className="btn-large grey waves-effect waves-light">
                   <span>Post</span>
                   <i className="material-icons right">add_circle_outline</i>
-                  {  <h3>{this.state.message}</h3>}
                 </button>
               </div>
             </div>
@@ -316,11 +296,16 @@ class KittyPostForm extends Component {
 }
 
 KittyPostForm.propTypes = {
-  auth: PropTypes.object.isRequired
+  addPost: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  posts: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors,
+  posts: state.posts
 });
 
-export default connect(mapStateToProps)(KittyPostForm);
+export default connect(mapStateToProps, { addPost })(withRouter(KittyPostForm));

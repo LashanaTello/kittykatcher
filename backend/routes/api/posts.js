@@ -28,7 +28,7 @@ router.post('/upload', (req, res) => {
 
     const newPost = new Post({
       posterUsername: req.body.user,
-      claimerUsername: "",
+      //claimerUsername: "",
       title: req.body.postTitle,
       age: req.body.age,
       sex: req.body.sex,
@@ -37,9 +37,9 @@ router.post('/upload', (req, res) => {
       friendly: req.body.friendly,
       otherInfo: req.body.details,
       pics: urls,
-      status: "UNCLAIMED",
+      //status: "UNCLAIMED",
       location: {
-        type: "Point",
+        //type: "Point",
         coordinates: [...newCoords]
       }
     }).save()

@@ -30,7 +30,8 @@ router.post("/register", (req, res) => {
       const newUser = new User({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        avatar: req.body.avatar
       });
 
       // Hash password before saving in database
@@ -78,7 +79,8 @@ router.post("/login", (req, res) => {
         // Create JWT Payload
         const payload = {
           id: user.id,
-          username: user.username
+          username: user.username,
+          avatar: user.avatar
         };
 
         // Sign token
@@ -101,6 +103,16 @@ router.post("/login", (req, res) => {
           .json({ passwordincorrect: "Invalid credentials" }); /*remember to change this*/
       }
     });
+  });
+});
+
+router.get("/avatars", (req, res) => {
+  User.find({}, "username avatar", (err, allUsersAndAvatars) => {
+    if (err) {
+      res.send("Something went wrong");
+      next();
+    }
+    res.json(allUsersAndAvatars)
   });
 });
 

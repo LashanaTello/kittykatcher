@@ -1,15 +1,15 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
     <div className="container">
       <h4 className="center">Welcome!</h4>
       <div className="center">
-        <NavLink to='/login'>Login </NavLink>
+        <Link to='/login'>Login </Link>
       </div>
       <div className="center">
-        <NavLink to='register'>Sign Up</NavLink>
+        <Link to='register'>Sign Up</Link>
           </div>
     </div>
   );

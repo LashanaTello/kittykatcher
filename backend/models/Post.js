@@ -8,7 +8,7 @@ const PostSchema = new Schema({
   },
   claimerUsername: {
     type: String,
-    required: false
+    default: ""
   },
   title: {
     type: String,
@@ -42,13 +42,12 @@ const PostSchema = new Schema({
   ],
   status: {
     type: String,
-    required: true
+    default: "UNCLAIMED"
   },
   location: {
     type: {
       type: String,
-      enum: ['Point'],
-      required: true
+      default: "Point"
     },
     coordinates: {
       type: [Number],
@@ -61,10 +60,12 @@ const PostSchema = new Schema({
     default: Date.now
   },
   dateClaimed: {
-    type: Date
+    type: Date,
+    default: null
   },
   dateOfLastStatusChange: {
-    type: Date
+    type: Date,
+    default: Date.now
   }
 });
 

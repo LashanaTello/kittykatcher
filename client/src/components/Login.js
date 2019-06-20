@@ -62,8 +62,8 @@ class Login extends Component {
             <input type="password" id="password" onChange={this.handleChange} error={errors.password} className={classnames("", { invalid: errors.password || errors.passwordincorrect })} />
             <span className="red-text">{errors.password}{errors.passwordincorrect}</span>
           </div>
-          <div className="input-field col s12">
-            <button>Login</button>
+          <div className="center input-field col s12">
+            <button className="btn btn-large" style={{backgroundColor: "#f49f0a"}}>Login</button>
           </div>
         </form>
       </div>
