@@ -89,7 +89,9 @@ class KittyMap extends Component {
         pointToLayer: (feature, latlng) => {
           return L.marker(latlng, {icon: myIcon}).bindPopup(`
             ${this.createPopup(feature)}
-          `, customOptions);
+          `, customOptions).on('click', () => {
+              map.flyTo(latlng, 16)
+          });
         }
       }).addTo(map);
     });
@@ -217,6 +219,7 @@ class KittyMap extends Component {
       }
       newMarker = new L.Marker(e.latlng, {icon: myIcon});
       map.addLayer(newMarker);
+      map.flyTo(newMarker.getLatLng(), 16)
     }
     if (this.props.auth.isAuthenticated) {
       newMarker.bindPopup("Fill out the form below to add a cat to the map at this spot!", customOptionsForDefaultPopup).openPopup();

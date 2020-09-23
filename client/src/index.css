@@ -29,7 +29,7 @@ other popup colors I like
 
 .custom-popup .leaflet-popup-content-wrapper {
   max-width: 400px;
-  max-height: 400px;
+  max-height: 350px;
   min-width: 300px;
   overflow: auto;
 }
