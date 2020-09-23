@@ -257,8 +257,8 @@ class KittyMap extends Component {
             <div className="col s12">
               <Map ref="map" style={mapStyle} center={position} zoom={this.state.zoom} maxZoom={this.state.maxZoom} onClick={this.handleClick}>
                 <TileLayer
-                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                  attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+                  url='https://api.mapbox.com/styles/v1/lashanatello/ckfdma8al0rc119p7z99atbnx/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGFzaGFuYXRlbGxvIiwiYSI6ImNqdmNqa3N4bjFxNTI0NG4zd3o1dW5vZjQifQ.Cfda4jCnOw6cgsAdziXaUg'
                 />
                 <Marker position={position} icon={myIcon}>
                   <Popup className="custom-message">
