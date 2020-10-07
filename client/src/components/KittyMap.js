@@ -3,12 +3,49 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, MapControl, withLeaflet } from 'react-leaflet';
 import KittyPostForm from './KittyPostForm';
 import CantPost from './CantPost';
 import MapLoading from './MapLoading';
 import { getUsersAndAvatars } from '../store/actions/authActions';
 import { getAllPosts } from '../store/actions/postActions';
+import { mapboxToken, locationIqToken } from '../apiKeys';
+import { GeoSearchControl, LocationIQProvider } from 'leaflet-geosearch';
+
+
+var pawIcon = L.icon({
+  iconUrl: 'https://kittykatcher.s3.amazonaws.com/animal-prints.svg',
+  iconSize: [40, 40],
+  iconAnchor: [22, 30],
+  popupAnchor: [-2, -25]
+});
+
+class SearchControl extends MapControl {
+  createLeafletElement() {
+    const provider = new LocationIQProvider({
+      params: {
+        key: locationIqToken,
+      },
+    });
+    return GeoSearchControl({
+      provider: provider,
+      autoCompleteDelay: 500,
+      position: 'topleft',
+      style: 'button',
+      showMarker: true,
+      showPopup: false,
+      marker: {
+        icon: pawIcon,
+        draggable: false,
+      },
+      autoClose: true,
+      retainZoomLevel: false,
+      animateZoom: true,
+      keepResult: true,
+      searchLabel: 'search...'
+    });
+  }
+}
 
 
 const mapStyle = {
@@ -248,6 +285,7 @@ class KittyMap extends Component {
       );
     } else {
       const position = [this.state.lat, this.state.lng];
+      const GeoSearch = withLeaflet(SearchControl);
 
       return (
         <div className="container">
@@ -261,8 +299,9 @@ class KittyMap extends Component {
               <Map ref="map" style={mapStyle} center={position} zoom={this.state.zoom} maxZoom={this.state.maxZoom} onClick={this.handleClick}>
                 <TileLayer
                   attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
-                  url='https://api.mapbox.com/styles/v1/lashanatello/ckfdma8al0rc119p7z99atbnx/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGFzaGFuYXRlbGxvIiwiYSI6ImNqdmNqa3N4bjFxNTI0NG4zd3o1dW5vZjQifQ.Cfda4jCnOw6cgsAdziXaUg'
+                  url={`https://api.mapbox.com/styles/v1/lashanatello/ckfdma8al0rc119p7z99atbnx/tiles/256/{z}/{x}/{y}@2x?access_token=${mapboxToken}`}
                 />
+                <GeoSearch />
                 <Marker position={position} icon={myIcon}>
                   <Popup className="custom-message">
                     Click anywhere on the map to add a cat at that location to the map!
