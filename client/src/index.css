@@ -14,7 +14,7 @@ body {
   background-repeat: no-repeat;
   background-position: left top, bottom right;
   background-size: 175px 175px, 75px 75px;
-  background-attachment: local;  
+  background-attachment: local;
 }
 
 /*
@@ -39,7 +39,7 @@ other popup colors I like
   grid-template-rows: repeat(10, auto);
   grid-template-columns: 1fr 1fr;
   grid-gap: 7px;
-  grid-template-areas: 
+  grid-template-areas:
     "status ."
     "title title"
     "pic pic"
@@ -54,7 +54,7 @@ other popup colors I like
 
 .status-area {
   grid-area: status;
-  font-weight: bolder; 
+  font-weight: bolder;
 }
 
 .post-title {
@@ -97,7 +97,7 @@ other popup colors I like
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 2fr;
   grid-column-gap: 8px;
-  grid-template-areas: 
+  grid-template-areas:
   "prof-pic prof-name";
 }
 
@@ -125,7 +125,7 @@ other popup colors I like
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 2fr;
   grid-column-gap: 8px;
-  grid-template-areas: 
+  grid-template-areas:
   "picture name";
 }
 
@@ -178,7 +178,7 @@ other popup colors I like
 }
 
 
-.custom-message .leaflet-popup-content-wrapper, 
+.custom-message .leaflet-popup-content-wrapper,
 .custom-message .leaflet-popup-tip {
   background: #ff4081;
 }
@@ -190,7 +190,7 @@ other popup colors I like
   font-size: 1.1vw;
 }
 
-.cant-post-popup .leaflet-popup-content-wrapper, 
+.cant-post-popup .leaflet-popup-content-wrapper,
 .cant-post-popup .leaflet-popup-tip {
   max-width: 200px;
   font-family: 'Baloo Thambi', cursive;
@@ -210,4 +210,8 @@ other popup colors I like
 .special-radio img {
   max-width: 7vw;
   max-height: 7vh;
+}
+
+.add-spacing {
+  margin: 30px 0;
 }
