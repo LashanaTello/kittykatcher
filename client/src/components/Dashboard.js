@@ -39,11 +39,11 @@ class Dashboard extends Component {
                 <div className="col s6 left-align">
                   username
                 </div>
-                <div className="col s2 offset-s2 right-align">
-                  messages
+                <div className="col s1 offset-s4 right-align">
+                  <i className="material-icons">chat</i>
                 </div>
-                <div className="col s2 right-align">
-                  settings
+                <div className="col s1 right-align">
+                  <i className="material-icons">settings</i>
                 </div>
               </div>
               <div className="col s12">
