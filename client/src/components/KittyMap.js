@@ -119,7 +119,7 @@ class KittyMap extends Component {
     }
   }
 
-  addAllMarkers(map, allPosts) {      
+  addAllMarkers(map, allPosts) {
     allPosts.forEach(post => {
       var feat = this.createGeoJSON(post);
       L.geoJSON(feat, {
@@ -151,13 +151,13 @@ class KittyMap extends Component {
 
         <div class="info-area">
           <div>
-            <span class="headline-font">Age:</span> 
-            <br/> 
+            <span class="headline-font">Age:</span>
+            <br/>
             <span class="text-font">${feature.properties.age}</span>
-          </div> 
+          </div>
           <div>
             <span class="headline-font">Coat Colors:</span>
-            <br/> 
+            <br/>
             <span class="text-font">${feature.properties.furColors}</span>
           </div>
           <div>
@@ -166,7 +166,7 @@ class KittyMap extends Component {
             <span class="text-font">${feature.properties.friendly}</span>
           </div>
         </div>
-        
+
         <div class="more-info-area">
           <span class="headline-font">Sex:</span>
           <br/>
@@ -181,14 +181,14 @@ class KittyMap extends Component {
           <br/>
 
           <span class="headline-font">Other Info:</span>
-          <br/> 
+          <br/>
           <span class="text-font">${feature.properties.otherInfo ? `${feature.properties.otherInfo}`: "none"}</span>
         </div>
 
         <div class="separates divider"></div>
 
         <div class="posted-by">
-          <img class="post-pic" src=${usersAndAvs[feature.properties.user]} alt="Profile picture of user who claimed this post" />
+          <img class="post-pic" src=${usersAndAvs[feature.properties.user]} alt="Profile picture of user who made this post" />
           <span class="poster-name sub-heading-font">${feature.properties.user}</span>
         </div>
         <div class="claimed-by">
@@ -199,7 +199,7 @@ class KittyMap extends Component {
         <div class="posted-date">
           <span class="text-font">${(new Date(feature.properties.datePosted)).toDateString()}</span>
         </div>
-        <div class="claimed-date">                
+        <div class="claimed-date">
           <span class="text-font">${feature.properties.dateClaimed ? `${(new Date(feature.properties.dateClaimed)).toDateString()}`: ""}</span>
         </div>
 
@@ -306,7 +306,7 @@ class KittyMap extends Component {
                   <Popup className="custom-message">
                     Click anywhere on the map to add a cat at that location to the map!
                   </Popup>
-                </Marker>              
+                </Marker>
               </Map>
             </div>
           </div>
@@ -317,7 +317,7 @@ class KittyMap extends Component {
                 this.state.displayForm && <button className="right btn-small grey" onClick={this.display}><i className="material-icons">clear</i></button>
               }
               {
-                (this.state.displayCantPost && <CantPost />) || (!this.state.displayCantPost && this.state.displayForm && <KittyPostForm coords={newMarker.getLatLng()} />) 
+                (this.state.displayCantPost && <CantPost />) || (!this.state.displayCantPost && this.state.displayForm && <KittyPostForm coords={newMarker.getLatLng()} />)
               }
             </div>
           </div>
