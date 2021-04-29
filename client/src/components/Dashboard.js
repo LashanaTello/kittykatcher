@@ -6,12 +6,6 @@ import { logoutUser } from '../store/actions/authActions';
 import M from 'materialize-css';
 
 class Dashboard extends Component {
-  handleLogout = (e) => {
-    e.preventDefault();
-    this.props.logoutUser();
-    this.props.history.push("/");
-  };
-
   componentDidMount() {
     M.Tabs.init(this.Tabs);
     M.Dropdown.init(this.Dropdown);
