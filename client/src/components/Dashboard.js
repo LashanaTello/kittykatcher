@@ -24,45 +24,32 @@ class Dashboard extends Component {
     return (
       <div style={{ height: "75vh" }} className="container">
         <div className="row">
-          <div className="col s12 center-align">
-            <h4>
-              <b>Hey there,</b> {user.username}
-              <p className="flow-text grey-text text-darken-1">You are logged in!</p>
-            </h4>
+          <div className="col s12">
+            <p></p>
           </div>
           <div className="col s12 center-align">
-            <div className="col s4">
-              avatar
+            <div className="dashboard-avatar col s4">
+              <img src="https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb.jpg" />
             </div>
             <div className="col s8">
-              <div className="">
+              <div>
                 <div className="col s6 left-align">
-                  username
+                  <h4>
+                    Welcome, <b>{user.username}</b>!
+                  </h4>
                 </div>
                 <div className="col s1 offset-s4 right-align">
-                  <i className="material-icons">chat</i>
+                  <a className="btn"><i className="material-icons icon-size">chat</i></a>
                 </div>
                 <div className="col s1 right-align">
-                  <i className="material-icons">settings</i>
+                  <a className="btn"><i className="material-icons icon-size">settings</i></a>
                 </div>
               </div>
               <div className="col s12">
-                bio
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis nibh at hendrerit euismod. Suspendisse maximus a tellus eu lacinia. Vivamus nec ante ac purus efficitur suscipit. Sed blandit, mi quis fermentum fringilla, eros mauris cursus augue, et tempor lorem nibh quis tortor. Phasellus massa mi, ultrices eget imperdiet ut, blandit id eros. Sed et tortor aliquet, aliquam justo ultrices, scelerisque tortor. Sed vitae commodo est. Suspendisse a felis ut neque suscipit tempus. Nunc in mattis leo. Curabitur sem leo, viverra sit amet suscipit et, tempor a semhjjjjjjj jhjhhjhj hjhjjhhj j.
               </div>
-              <div className="col s6">
-                phone
-              </div>
-              <div className="col s6">
-                email
-              </div>
-              <div className="col s2 offset-s3">
-                social 1
-              </div>
-              <div className="col s2">
-                social 2
-              </div>
-              <div className="col s2">
-                social 3
+              <div className="col s12">
+                <p></p>
               </div>
             </div>
           </div>
