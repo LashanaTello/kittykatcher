@@ -6,9 +6,44 @@ import { logoutUser } from '../store/actions/authActions';
 import M from 'materialize-css';
 
 class Dashboard extends Component {
+  state = {
+    bio: "",
+    isBioDisabled: true,
+    editIconName: "edit",
+  }
+
   componentDidMount() {
     M.Tabs.init(this.Tabs);
     M.Dropdown.init(this.Dropdown);
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+    console.log(this.state.bio);
+  }
+
+  toggleEditBio = () => {
+    if (this.state.editIconName == "edit") {
+      this.setState({
+        editIconName: "done"
+      });
+    } else {
+      this.setState({
+        editIconName: "edit"
+      });
+    }
+    this.setState({
+      isBioDisabled: !this.state.isBioDisabled
+    });
+  }
+
+  cancelClicked = () => {
+    this.toggleEditBio();
+    this.setState({
+      bio: ""
+    });
   }
 
   render() {
@@ -27,20 +62,37 @@ class Dashboard extends Component {
             </div>
             <div className="col s8">
               <div>
-                <div className="col s6 left-align">
+                <div className="col s5 left-align">
                   <h4>
                     Welcome, <b>{user.username}</b>!
                   </h4>
                 </div>
-                <div className="col s1 offset-s4 right-align">
+                <div className="col s1 offset-s3 right-align">
+                  {
+                    !this.state.isBioDisabled && <a className="red btn" onClick={this.cancelClicked}><i className="material-icons icon-size">cancel</i></a>
+                  }
+                </div>
+                <div className="col s1">
+                  <a className="btn" onClick={this.toggleEditBio}><i className="material-icons icon-size">{this.state.editIconName}</i></a>
+                </div>
+                <div className="col s1 right-align">
                   <a className="btn"><i className="material-icons icon-size">chat</i></a>
                 </div>
                 <div className="col s1 right-align">
                   <a className="btn"><i className="material-icons icon-size">settings</i></a>
                 </div>
               </div>
-              <div className="col s12">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis nibh at hendrerit euismod. Suspendisse maximus a tellus eu lacinia. Vivamus nec ante ac purus efficitur suscipit. Sed blandit, mi quis fermentum fringilla, eros mauris cursus augue, et tempor lorem nibh quis tortor. Phasellus massa mi, ultrices eget imperdiet ut, blandit id eros. Sed et tortor aliquet, aliquam justo ultrices, scelerisque tortor. Sed vitae commodo est. Suspendisse a felis ut neque suscipit tempus. Nunc in mattis leo. Curabitur sem leo, viverra sit amet suscipit et, tempor a semhjjjjjjj jhjhhjhj hjhjjhhj j.
+              <div className="input-field bio-text col s12">
+                <textarea
+                  name="bio"
+                  id="bio"
+                  className="bio-size"
+                  maxLength="450"
+                  placeholder="Add a bio!"
+                  value={this.state.bio}
+                  disabled={this.state.isBioDisabled}
+                  onChange={this.handleChange}
+                ></textarea>
               </div>
               <div className="col s12">
                 <p></p>

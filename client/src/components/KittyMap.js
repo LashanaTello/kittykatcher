@@ -265,14 +265,14 @@ class KittyMap extends Component {
       }
       if (this.state.displayCantPost) {
         this.setState({
-          displayCantPost: !this.displayCantPost
+          displayCantPost: !this.displayCantPost //pay attention to this
         })
       }
     } else {
       newMarker.bindPopup("Whoa there!", cantPostOptions).openPopup();
       if (!this.state.displayCantPost) {
         this.setState({
-          displayCantPost: !this.displayCantPost
+          displayCantPost: !this.displayCantPost //pay attention to this
         })
       }
     }

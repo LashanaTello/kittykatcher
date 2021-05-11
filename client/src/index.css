@@ -233,3 +233,13 @@ other popup colors I like
 .icon-size {
   font-size: 230%;
 }
+
+.bio-size {
+  height: 160px;
+}
+
+.bio-text textarea{
+  /*outline: none;*/
+  resize: none;
+  font-size: 110%;
+}
