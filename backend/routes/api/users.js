@@ -7,6 +7,7 @@ const keys = require("../../config/keys");
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
+const validateBioInput = require("../../validation/bio");
 
 // Load User model
 const User = require("../../models/User");
@@ -113,6 +114,40 @@ router.get("/avatars", (req, res) => {
       next();
     }
     res.json(allUsersAndAvatars)
+  });
+});
+
+// get bio of specific user
+router.get("/bio", (req, res) => {
+  const username = req.body.username;
+
+  User.find({ username }, "bio", (err, userBio) => {
+    if (err) {
+      res.send("Something went wrong");
+      next();
+    }
+    res.status(200).json(userBio)
+  });
+});
+
+// edit bio of specific user
+// post for bio of specific user
+router.put("/userbio", (req, res) => {
+  const { errors, isValid } = validateBioInput(req.body);
+
+  // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  User.findOne({ username: req.body.username }).then(user => {
+    if (!user) {
+      return res.status(404).json({ usernotfound: "Invalid credentials" });
+    }
+
+    user.bio = req.body.bio;
+    user.save();
+    res.status(200).json(user);
   });
 });
 
