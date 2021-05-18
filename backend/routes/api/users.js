@@ -32,7 +32,8 @@ router.post("/register", (req, res) => {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
-        avatar: req.body.avatar
+        avatar: req.body.avatar,
+        bio: ""
       });
 
       // Hash password before saving in database
@@ -81,7 +82,8 @@ router.post("/login", (req, res) => {
         const payload = {
           id: user.id,
           username: user.username,
-          avatar: user.avatar
+          avatar: user.avatar,
+          bio: user.bio
         };
 
         // Sign token
@@ -117,36 +119,21 @@ router.get("/avatars", (req, res) => {
   });
 });
 
-// get bio of specific user
-router.get("/bio", (req, res) => {
-  const username = req.body.username;
-
-  User.find({ username }, "bio", (err, userBio) => {
-    if (err) {
-      res.send("Something went wrong");
-      next();
-    }
-    res.status(200).json(userBio)
-  });
-});
-
 // edit bio of specific user
 // post for bio of specific user
-router.put("/userbio", (req, res) => {
+router.put("/bio", (req, res) => {
   const { errors, isValid } = validateBioInput(req.body);
 
-  // Check validation
+  //Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
 
-  User.findOne({ username: req.body.username }).then(user => {
+  User.findOneAndUpdate({ username: req.body.username }, { bio: req.body.bio }, { new: true, fields: '-_id username bio' }).then(user => {
     if (!user) {
       return res.status(404).json({ usernotfound: "Invalid credentials" });
     }
 
-    user.bio = req.body.bio;
-    user.save();
     res.status(200).json(user);
   });
 });
