@@ -23,7 +23,7 @@ const UserSchema = new Schema({
     required: true
   },
   bio: {
-    type: String    
+    type: String
   }
 });
 
