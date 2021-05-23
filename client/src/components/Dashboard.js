@@ -2,30 +2,70 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logoutUser } from '../store/actions/authActions';
+import { editBio } from '../store/actions/authActions';
 import M from 'materialize-css';
 
 class Dashboard extends Component {
   state = {
     bio: "",
+    origBio: "",
     isBioDisabled: true,
-    editIconName: "edit",
+    editIconName: "edit"
   }
 
   componentDidMount() {
     M.Tabs.init(this.Tabs);
     M.Dropdown.init(this.Dropdown);
+    const { user } = this.props.auth;
+    this.setState({
+      origBio: user.bio ? user.bio : "",
+      bio: user.bio
+    })
+  }
+
+  componentDidUpdate(prevProps) {
+    const { user } = this.props.auth;
+
+    if (prevProps.auth.user.bio !== user.bio) {
+      this.setState({
+        bio: user.bio,
+        origBio: user.bio
+      });
+    }
   }
 
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
     });
-    console.log(this.state.bio);
   }
 
   toggleEditBio = () => {
-    if (this.state.editIconName == "edit") {
+    const { user } = this.props.auth;
+
+    if (this.state.editIconName === "edit") {
+      this.setState({
+        editIconName: "done"
+      });
+    } else {
+      const userData = {
+        username: user.username,
+        bio: this.state.bio
+      };
+      this.props.editBio(userData);
+
+      this.setState({
+        editIconName: "edit"
+      });
+    }
+
+    this.setState({
+      isBioDisabled: !this.state.isBioDisabled
+    });
+  }
+
+  cancelClicked = () => {
+    if (this.state.editIconName === "edit") {
       this.setState({
         editIconName: "done"
       });
@@ -37,12 +77,8 @@ class Dashboard extends Component {
     this.setState({
       isBioDisabled: !this.state.isBioDisabled
     });
-  }
-
-  cancelClicked = () => {
-    this.toggleEditBio();
     this.setState({
-      bio: ""
+      bio: this.state.origBio
     });
   }
 
@@ -88,7 +124,7 @@ class Dashboard extends Component {
                   id="bio"
                   className="bio-size"
                   maxLength="450"
-                  placeholder="Add a bio!"
+                  placeholder={(user.bio !== '') ? user.bio : "Add a bio!"}
                   value={this.state.bio}
                   disabled={this.state.isBioDisabled}
                   onChange={this.handleChange}
@@ -145,7 +181,7 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
+  editBio: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -153,4 +189,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { logoutUser })(withRouter(Dashboard));
+export default connect(mapStateToProps, { editBio })(withRouter(Dashboard));
