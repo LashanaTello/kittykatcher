@@ -58,4 +58,14 @@ router.get('/allCats', (req, res) => {
   });
 });
 
+router.get('/userposts', (req, res) => {
+  Post.find({ posterUsername: req.body.username }, (err, usersPosts) => {
+    if (err) {
+      res.send("Something went wrong");
+      next();
+    }
+    res.status(200).json(usersPosts)
+  });
+});
+
 module.exports = router;
