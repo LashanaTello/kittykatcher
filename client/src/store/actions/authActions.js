@@ -7,7 +7,9 @@ import {
   SET_CURRENT_USER,
   USER_LOADING,
   GET_USERS_AND_AVATARS,
-  GET_USERS_AND_AVATARS_LOADING
+  GET_USERS_AND_AVATARS_LOADING,
+  SET_USER_BIO,
+  SET_USER_BIO_SUCCESS
 } from './types';
 
 // Register User
@@ -105,3 +107,32 @@ export const getUsersAndAvatarsLoading = truthValue => {
     payload: truthValue
   };
 }
+
+export const editBio = userData => dispatch => {
+  axios
+    .put("/api/users/bio", userData)
+    .then(res => {
+      console.log("edit bio call: ", res.data);
+      dispatch(setUserBio(res.data.bio));
+      dispatch(setUserBioSuccess());
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const setUserBio = bio => {
+  return {
+    type: SET_USER_BIO,
+    payload: bio
+  };
+};
+
+export const setUserBioSuccess = () => {
+  return {
+    type: SET_USER_BIO_SUCCESS
+  };
+};

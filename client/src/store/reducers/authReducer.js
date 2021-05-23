@@ -2,7 +2,9 @@ import {
   SET_CURRENT_USER,
   USER_LOADING,
   GET_USERS_AND_AVATARS,
-  GET_USERS_AND_AVATARS_LOADING
+  GET_USERS_AND_AVATARS_LOADING,
+  SET_USER_BIO,
+  SET_USER_BIO_SUCCESS
 } from '../actions/types';
 
 const isEmpty = require('is-empty');
@@ -12,7 +14,8 @@ const initialState = {
   user: {},
   loading: false,
   allUsersAndAvatarsLoading: false,
-  usersAndAvatars: []
+  usersAndAvatars: [],
+  setBioSuccess: false
 };
 
 export default function(state = initialState, action) {
@@ -37,6 +40,19 @@ export default function(state = initialState, action) {
       return {
         ...state,
         allUsersAndAvatarsLoading: action.payload
+      }
+    case SET_USER_BIO:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          bio: action.payload
+        }
+      }
+    case SET_USER_BIO_SUCCESS:
+      return {
+        ...state,
+        setBioSuccess: true
       }
     default:
       return state;
