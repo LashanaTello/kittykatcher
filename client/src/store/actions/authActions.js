@@ -112,7 +112,6 @@ export const editBio = userData => dispatch => {
   axios
     .put("/api/users/bio", userData)
     .then(res => {
-      console.log("edit bio call: ", res.data);
       dispatch(setUserBio(res.data.bio));
       dispatch(setUserBioSuccess());
     })
