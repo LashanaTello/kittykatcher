@@ -4,7 +4,9 @@ import {
   GET_ERRORS,
   ADD_POST_SUCCESS,
   GET_ALL_POSTS_LOADING,
-  GET_ALL_POSTS_SUCCESS
+  GET_ALL_POSTS_SUCCESS,
+  GET_A_USERS_POSTS_LOADING,
+  GET_A_USERS_POSTS_SUCCESS
 } from './types';
 
 
@@ -14,7 +16,7 @@ export const addPost = (postData) => dispatch => {
       method: 'post',
       url: "/api/posts/upload",
       data: postData,
-      headers: { 
+      headers: {
         "Content-Type": `multipart/form-data; boundary=${postData._boundary}`
       }
     })
@@ -47,9 +49,9 @@ export const getAllPosts = () => dispatch => {
   axios
     .get("/api/posts/allCats")
     .then(res => {
-      dispatch(getAllPostsSuccess(res.data)); 
+      dispatch(getAllPostsSuccess(res.data));
       dispatch(getAllPostsAreLoading(false));
-    }) 
+    })
     .catch(err => {
       console.log(err);
       dispatch({
@@ -72,3 +74,35 @@ export const getAllPostsSuccess = allPosts => {
     allPosts
   };
 };
+
+export const getUserPosts = (username) => dispatch => {
+  dispatch(getUserPostsLoading(true));
+
+  axios
+    .get(`/api/posts/userposts/${username}`)
+    .then(res => {
+      dispatch(getUserPostsSuccess(res.data));
+      dispatch(getUserPostsLoading(false));
+      console.log(res);
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const getUserPostsSuccess = usersPosts => {
+  return {
+    type: GET_A_USERS_POSTS_SUCCESS,
+    payload: [...usersPosts]
+  };
+}
+
+export const getUserPostsLoading = truthValue => {
+  return {
+    type: GET_A_USERS_POSTS_LOADING,
+    payload: truthValue
+  };
+}
