@@ -120,7 +120,6 @@ router.get("/avatars", (req, res) => {
 });
 
 // edit bio of specific user
-// post for bio of specific user
 router.put("/bio", (req, res) => {
   const { errors, isValid } = validateBioInput(req.body);
 
