@@ -243,3 +243,42 @@ other popup colors I like
   resize: none;
   font-size: 110%;
 }
+
+.dashboard-card {
+  background-image: url("https://kittykatcher.s3.amazonaws.com/animal-prints.svg"), url("https://kittykatcher.s3.amazonaws.com/animal-prints.svg");
+  background-repeat: no-repeat;
+  background-position: left top, bottom right;
+  background-size: 175px 175px, 75px 75px;
+  background-attachment: local;
+}
+
+.top-right-corner {
+  margin-bottom: 15px;
+}
+
+.bottom-half {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.indent {
+  margin-left: 20px;
+}
+
+.details li:nth-child(odd) {
+  list-style: none;
+  background-image: url('https://kittykatcher.s3.amazonaws.com/animal-prints.svg');
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 30px;
+  padding: 10px 0px 5px 30px;
+}
+
+.details li:nth-child(even) {
+  list-style: none;
+  background-image: url('https://kittykatcher.s3.amazonaws.com/animal-prints.svg');
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 20px;
+  padding: 10px 0px 5px 20px;
+}
