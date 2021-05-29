@@ -83,7 +83,6 @@ export const getUserPosts = (username) => dispatch => {
     .then(res => {
       dispatch(getUserPostsSuccess(res.data));
       dispatch(getUserPostsLoading(false));
-      console.log(res);
     })
     .catch(err =>
       dispatch({
