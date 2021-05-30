@@ -280,5 +280,24 @@ other popup colors I like
 	background-repeat: no-repeat;
 	background-position: left center;
 	background-size: 20px;
-  padding: 10px 0px 5px 20px;
+  padding: 8px 0px 5px 20px;
+}
+
+.slider-area {
+  display: flex;
+  align-items: center
+}
+
+.slider-area img {
+  max-height: 150px;
+  max-width: 300px;
+}
+
+.default-pic-area img {
+  height: 12.4vh;
+  max-width: 6vw;
+}
+
+.vertical-center {
+  margin: 0;
 }

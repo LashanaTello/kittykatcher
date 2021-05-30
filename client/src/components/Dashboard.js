@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { editBio } from '../store/actions/authActions';
 import { getUserPosts } from '../store/actions/postActions';
 import M from 'materialize-css';
+import ImageSlider from "./ImageSlider";
 
-const defaultCatPic = "https://kittykatcher.s3.amazonaws.com/default_kitty.svg";
 
 var allOfMyPosts = [];
 
@@ -104,7 +104,6 @@ class Dashboard extends Component {
 
   render() {
     const { user } = this.props.auth;
-    const example = ["thing 1", "thing 2", "thing 3", "thing 4", "thing 5", "thing 6"];
     if (this.props.posts.allOfAUsersPosts !== undefined) {
       console.log(allOfMyPosts);
     }
@@ -188,20 +187,36 @@ class Dashboard extends Component {
                         <div className="row">
                           <div className="col s12 offset-s4 top-right-corner">New York City, NY</div>
                           <div className="card-title">{post.title}</div>
-                          <div className="col s12"></div>
+                          <div className="col s12">
+                            <ImageSlider images={post.pics} />
+                          </div>
                           <div className="details">
-                            <ul className="left-align">
-                              <li>Age:</li>
-                              <li className="indent">{post.age}</li>
-                              <li>Sex:</li>
-                              <li className="indent">{post.sex}</li>
-                              <li>Fur Color:</li>
-                              <li className="indent">{post.furColors}</li>
-                              <li>Fur Pattern:</li>
-                              <li className="indent">{post.furPattern}</li>
-                              <li>Friendliness:</li>
-                              <li className="indent">{post.friendly}</li>
-                              <li>Other Info:</li>
+                            <div>
+                              <ul className="col s4 left-align">
+                                <li className="">Age:</li>
+                                <li className="indent">{post.age}</li>
+                              </ul>
+                              <ul className="col s4 left-align">
+                                <li className="">Sex:</li>
+                                <li className="indent">{post.sex}</li>
+                              </ul>
+                              <ul className="col s4 left-align">
+                                <li className="">Friendly?:</li>
+                                <li className="indent">{post.friendly}</li>
+                              </ul>
+                            </div>
+                            <div className="col s12">
+                              <ul className="col s6 left-align">
+                                <li className="">Fur Color:</li>
+                                <li className="indent">{post.furColors.join(", ")}</li>
+                              </ul>
+                              <ul className="col s6 left-align">
+                                <li className="">Fur Pattern:</li>
+                                <li className="indent">{post.furPattern}</li>
+                              </ul>
+                            </div>
+                            <ul className="col s12 left-align">
+                              <li className="">Other Info:</li>
                               <li className="indent">{post.otherInfo ? post.otherInfo : "No extra details provided"}</li>
                             </ul>
                           </div>
@@ -216,13 +231,54 @@ class Dashboard extends Component {
               );
             })}
           </div>
-          <div id="test2" className="add-spacing col s12 center-align">Test 2</div>
-          <div id="test3" className="add-spacing col s12 center-align">Test 3</div>
+          <div id="test2" className="add-spacing col s12 center-align">No posts claimed</div>
+          <div id="test3" className="add-spacing col s12 center-align">No posts favorited</div>
         </div>
       </div>
     );
   }
 }
+/*
+<div className="details">
+  <ul className="col s12 left-align">
+    <li className="">Age:</li>
+    <li className="indent">{post.age}</li>
+    <li className="">Sex:</li>
+    <li className="indent">{post.sex}</li>
+    <li className="">Fur Color:</li>
+    <li className="indent">{post.furColors.join(", ")}</li>
+    <li className="">Fur Pattern:</li>
+    <li className="indent">{post.furPattern}</li>
+    <li className="">Friendliness:</li>
+    <li className="indent">{post.friendly}</li>
+    <li className="">Other Info:</li>
+    <li className="indent">{post.otherInfo ? post.otherInfo : "No extra details provided"}</li>
+  </ul>
+</div>
+
+
+<div className="details">
+  <ul className="col s6 left-align">
+    <li className="">Age:</li>
+    <li className="indent">{post.age}</li>
+    <li className="">Sex:</li>
+    <li className="indent">{post.sex}</li>
+  </ul>
+  <ul className="col s6 left-align">
+    <li className="">Fur Color:</li>
+    <li className="indent">{post.furColors.join(", ")}</li>
+    <li className="">Fur Pattern:</li>
+    <li className="indent">{post.furPattern}</li>
+  </ul>
+  <p className="col s12"></p>
+  <ul className="col s12 left-align">
+    <li className="">Friendliness:</li>
+    <li className="indent">{post.friendly}</li>
+    <li className="">Other Info:</li>
+    <li className="indent">{post.otherInfo ? post.otherInfo : "No extra details provided"}</li>
+  </ul>
+</div>
+*/
 
 Dashboard.propTypes = {
   getUserPosts: PropTypes.func.isRequired,
