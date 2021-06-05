@@ -301,3 +301,88 @@ other popup colors I like
 .vertical-center {
   margin: 0;
 }
+
+.my-modal {
+  display: block;
+
+  /* Probably need media queries here */
+  width: 950px;
+  max-width: 100%;
+
+  height: 600px;
+  max-height: 100%;
+
+  position: fixed;
+
+  z-index: 100;
+
+  left: 50%;
+  top: 50%;
+
+  /* Use this for centering if unknown width/height */
+  transform: translate(-50%, -50%);
+
+  /* If known, negative margins are probably better (less chance of blurry text). */
+  /* margin: -200px 0 0 -200px; */
+
+  background: #06818f;
+  box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+  padding: 10px 10px 10px 10px;
+}
+
+.dim-background {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  background:rgba(0,0,0,0.5);
+}
+
+.my-modal-grid {
+  display: grid;
+  grid-template-rows: repeat(6, auto);
+  grid-template-columns: 1fr 1fr 7fr 1fr 1fr;
+  grid-row-gap: 30px;
+  grid-template-areas:
+    ". . . . close-btn"
+    ". photo photo photo ."
+    ". photo photo photo ."
+    "left-arrow photo photo photo right-arrow"
+    ". photo photo photo ."
+    ". photo photo photo .";
+}
+
+.close-btn-area {
+  grid-area: close-btn;
+  max-height: 100%;
+  max-width: 100%;
+  justify-self: end;
+}
+
+.photo-area {
+  grid-area: photo;
+  height: 450px;
+  max-height: 100%;
+  justify-self: stretch;
+  max-width: 100%;
+}
+
+.left-arrow-area {
+  height: 35px;
+  max-height: 100%;
+  width: 45px;
+  max-width: 100%;
+  grid-area: left-arrow;
+}
+
+.right-arrow-area {
+  height: 35px;
+  max-height: 100%;
+  width: 45px;
+  max-width: 100%;
+  justify-self: end;
+  grid-area: right-arrow;
+}
