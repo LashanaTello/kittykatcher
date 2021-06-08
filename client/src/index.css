@@ -291,6 +291,7 @@ other popup colors I like
 .slider-area img {
   max-height: 150px;
   max-width: 300px;
+  border-radius: 5%;
 }
 
 .default-pic-area img {
@@ -328,6 +329,7 @@ other popup colors I like
   background: #06818f;
   box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
   padding: 10px 10px 10px 10px;
+  border-radius: 1%;
 }
 
 .dim-background {
