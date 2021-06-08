@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import FullImagePopup from './FullImagePopup';
+import Dots from './Dots';
 
 
 const defaultCatPic = "https://kittykatcher.s3.amazonaws.com/default_kitty.svg";
@@ -33,6 +34,7 @@ const ImageSlider = ({ images }) => {
           <img className="col s10" src={images[index]} alt={index} onClick={togglePop} />
           <button className="vertical-center btn col s1" onClick={slideRight}>{">"}</button>
         </div>
+        <Dots images={images} currIndex={index}/>
         <div>
           {seen ? <FullImagePopup toggle={togglePop} images={images} currIndex={index} /> : null}
         </div>

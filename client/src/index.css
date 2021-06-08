@@ -386,3 +386,27 @@ other popup colors I like
   justify-self: end;
   grid-area: right-arrow;
 }
+
+.slide-dots {
+  padding: 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 50%;
+  background: black;
+}
+
+.slide-dots-active {
+  padding: 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 50%;
+  background: white;
+}
+
+.dots-grid {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+}
