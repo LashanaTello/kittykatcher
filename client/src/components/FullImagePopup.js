@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Dots from './Dots';
 
 
 class FullImagePopup extends Component {
@@ -39,6 +40,7 @@ class FullImagePopup extends Component {
             <img className="photo-area" src={this.props.images[this.state.index]} alt={this.state.index} />
             <button className="right-arrow-area btn" onClick={this.slideRight}>{">"}</button>
           </div>
+          <Dots images={this.props.images} currIndex={this.state.index}/>
         </div>
         <div className="dim-background"></div>
       </div>
