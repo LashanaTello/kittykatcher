@@ -137,7 +137,7 @@ class Dashboard extends Component {
                   <Link to="/settings"><button className="btn"><i className="material-icons icon-size">settings</i></button></Link>
                 </div>
               </div>
-              <div className="input-field bio-text col s12">
+              <div className="bio-text col s12">
                 <textarea
                   name="bio"
                   id="bio"
