@@ -7,7 +7,6 @@ const Dots = ({ images, currIndex }) => {
       <div className="dots-grid">
         {
           images.map((image,i) => {
-            console.log(i);
             if (currIndex == i) {
               return (
                 <div key={image} className="slide-dots-active">
