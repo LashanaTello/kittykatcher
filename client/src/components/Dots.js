@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 
 const Dots = ({ images, currIndex }) => {
@@ -7,7 +7,7 @@ const Dots = ({ images, currIndex }) => {
       <div className="dots-grid">
         {
           images.map((image,i) => {
-            if (currIndex == i) {
+            if (currIndex === i) {
               return (
                 <div key={image} className="slide-dots-active">
                 </div>
