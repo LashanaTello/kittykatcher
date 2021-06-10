@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { editBio } from '../store/actions/authActions';
@@ -104,9 +104,6 @@ class Dashboard extends Component {
 
   render() {
     const { user } = this.props.auth;
-    if (this.props.posts.allOfAUsersPosts !== undefined) {
-      console.log(allOfMyPosts);
-    }
 
     return (
       <div style={{ height: "75vh" }} className="container">
@@ -137,7 +134,7 @@ class Dashboard extends Component {
                   <button className="btn"><i className="material-icons icon-size">chat</i></button>
                 </div>
                 <div className="col s1 right-align">
-                  <button className="btn"><i className="material-icons icon-size">settings</i></button>
+                  <Link to="/settings"><button className="btn"><i className="material-icons icon-size">settings</i></button></Link>
                 </div>
               </div>
               <div className="input-field bio-text col s12">

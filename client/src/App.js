@@ -11,6 +11,7 @@ import Register from './components/Register';
 import KittyMap from './components/KittyMap';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/Dashboard';
+import Settings from './components/Settings';
 import store from './store/store';
 
 // Check for token to keep user logged in
@@ -43,10 +44,11 @@ class App extends Component {
           <Route exact path='/' component={Home} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
-          <Route path='/kittymap' component={KittyMap} /> 
+          <Route path='/kittymap' component={KittyMap} />
           <Switch>
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          </Switch>         
+            <PrivateRoute exact path="/settings" component={Settings} />
+          </Switch>
         </div>
       </BrowserRouter>
     );
