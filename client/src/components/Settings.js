@@ -125,7 +125,7 @@ class Settings extends Component {
         {
           this.state.changeUsernameShown && (
             <div>
-              <div className="my-modal" style={{ height: "300px"}}>
+              <div className="my-modal" style={{ height: "300px", width: "850px"}}>
                 <div className="row">
                   <button className="btn-small right" onClick={this.closeClicked}><i className="material-icons">clear</i></button>
                   <div className="col s12">
