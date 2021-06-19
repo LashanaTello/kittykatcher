@@ -8,6 +8,10 @@ const keys = require("../../config/keys");
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 const validateBioInput = require("../../validation/bio");
+const validateChangeEmailInput = require("../../validation/settings-email");
+const validateChangePasswordInput = require("../../validation/settings-password");
+const validateChangeUsernameInput = require("../../validation/settings-username");
+
 
 // Load User model
 const User = require("../../models/User");
