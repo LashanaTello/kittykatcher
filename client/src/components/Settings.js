@@ -2,12 +2,27 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getEmail } from '../store/actions/authActions';
 
 class Settings extends Component {
   state = {
     changeEmailShown: false,
     changeUsernameShown: false,
     changePasswordShown: false
+  }
+
+  componentDidMount() {
+    const { user } = this.props.auth;
+    this.props.getEmail(user.username);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { user } = this.props.auth;
+
+    // wait for email to load
+    if (!this.props.auth.emailLoading) {
+      console.log(this.props.auth.email)
+    }
   }
 
   showEmailForm = () => {
@@ -50,6 +65,7 @@ class Settings extends Component {
 
   render() {
     const { user } = this.props.auth;
+    console.log(this.props.auth.email);
 
     return (
       <div className="container">
@@ -194,11 +210,12 @@ class Settings extends Component {
 }
 
 Settings.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  getEmail: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(withRouter(Settings));
+export default connect(mapStateToProps, { getEmail })(withRouter(Settings));

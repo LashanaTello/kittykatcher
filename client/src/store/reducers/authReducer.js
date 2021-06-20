@@ -4,7 +4,9 @@ import {
   GET_USERS_AND_AVATARS,
   GET_USERS_AND_AVATARS_LOADING,
   SET_USER_BIO,
-  SET_USER_BIO_SUCCESS
+  SET_USER_BIO_SUCCESS,
+  GET_EMAIL_SUCCESS,
+  GET_EMAIL_LOADING
 } from '../actions/types';
 
 const isEmpty = require('is-empty');
@@ -15,7 +17,9 @@ const initialState = {
   loading: false,
   allUsersAndAvatarsLoading: false,
   usersAndAvatars: [],
-  setBioSuccess: false
+  setBioSuccess: false,
+  email: "",
+  emailLoading: false
 };
 
 export default function(state = initialState, action) {
@@ -53,6 +57,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         setBioSuccess: true
+      }
+    case GET_EMAIL_SUCCESS:
+      return {
+        ...state,
+        email: action.payload
+      }
+    case GET_EMAIL_LOADING:
+      return {
+        ...state,
+        emailLoading: action.payload
       }
     default:
       return state;

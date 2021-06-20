@@ -9,7 +9,9 @@ import {
   GET_USERS_AND_AVATARS,
   GET_USERS_AND_AVATARS_LOADING,
   SET_USER_BIO,
-  SET_USER_BIO_SUCCESS
+  SET_USER_BIO_SUCCESS,
+  GET_EMAIL_SUCCESS,
+  GET_EMAIL_LOADING
 } from './types';
 
 // Register User
@@ -135,3 +137,35 @@ export const setUserBioSuccess = () => {
     type: SET_USER_BIO_SUCCESS
   };
 };
+
+export const getEmail = (username) => dispatch => {
+  dispatch(getEmailLoading(true));
+
+  axios
+    .get(`/api/users/email/${username}`)
+    .then(res => {
+      dispatch(getEmailSuccess(res.data.email));
+      console.log(res.data.email);
+      dispatch(getEmailLoading(false));
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const getEmailSuccess = email => {
+  return {
+    type: GET_EMAIL_SUCCESS,
+    payload: email
+  };
+}
+
+export const getEmailLoading = truthValue => {
+  return {
+    type: GET_EMAIL_LOADING,
+    payload: truthValue
+  };
+}

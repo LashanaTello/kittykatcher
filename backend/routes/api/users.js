@@ -141,4 +141,14 @@ router.put("/bio", (req, res) => {
   });
 });
 
+router.get("/email/:username", (req, res) => {
+  User.findOne({ username: req.params.username }, "email -_id", (err, email) => {
+    if (err) {
+      res.send("Something went wrong");
+      next();
+    }
+    res.status(200).json(email)
+  });
+});
+
 module.exports = router;
