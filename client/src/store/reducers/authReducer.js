@@ -25,7 +25,8 @@ const initialState = {
   usersAndAvatars: [],
   setBioSuccess: false,
   email: "",
-  emailLoading: false
+  emailLoading: false,
+  changeUsernameSuccess: false
 };
 
 export default function(state = initialState, action) {
@@ -73,6 +74,19 @@ export default function(state = initialState, action) {
       return {
         ...state,
         emailLoading: action.payload
+      }
+    case CHANGE_USERNAME:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          username: action.payload
+        }
+      }
+    case CHANGE_USERNAME_SUCCESS:
+      return {
+        ...state,
+        changeUsernameSuccess: true
       }
     default:
       return state;

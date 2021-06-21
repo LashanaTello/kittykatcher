@@ -151,4 +151,22 @@ router.get("/email/:username", (req, res) => {
   });
 });
 
+// change username of user
+router.put("/new-username", (req, res) => {
+  const { errors, isValid } = validateChangeUsernameInput(req.body);
+
+  //Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername }, { new: true, fields: '-_id username' }).then(user => {
+    if (!user) {
+      return res.status(404).json({ usernotfound: "Invalid credentials" });
+    }
+
+    res.status(200).json(user);
+  });
+});
+
 module.exports = router;

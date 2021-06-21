@@ -175,3 +175,31 @@ export const getEmailLoading = truthValue => {
     payload: truthValue
   };
 }
+
+export const changeMyUsername = userData => dispatch => {
+  axios
+    .put("/api/users/new-username", userData)
+    .then(res => {
+      dispatch(changeUsername(res.data));
+      dispatch(changeUsernameSuccess());
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const changeUsername = username => {
+  return {
+    type: CHANGE_USERNAME,
+    payload: username
+  };
+};
+
+export const changeUsernameSuccess = () => {
+  return {
+    type: CHANGE_USERNAME_SUCCESS
+  };
+};
