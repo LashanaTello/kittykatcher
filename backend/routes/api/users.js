@@ -36,8 +36,7 @@ router.post("/register", (req, res) => {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
-        avatar: req.body.avatar,
-        bio: ""
+        avatar: req.body.avatar
       });
 
       // Hash password before saving in database
@@ -86,8 +85,7 @@ router.post("/login", (req, res) => {
         const payload = {
           id: user.id,
           username: user.username,
-          avatar: user.avatar,
-          bio: user.bio
+          avatar: user.avatar
         };
 
         // Sign token
@@ -138,6 +136,16 @@ router.put("/bio", (req, res) => {
     }
 
     res.status(200).json(user);
+  });
+});
+
+router.get("/bio/:username", (req, res) => {
+  User.findOne({ username: req.params.username }, "bio -_id", (err, bio) => {
+    if (err) {
+      res.send("Something went wrong");
+      next();
+    }
+    res.status(200).json(bio)
   });
 });
 
