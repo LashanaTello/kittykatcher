@@ -5,6 +5,8 @@ import {
   GET_USERS_AND_AVATARS_LOADING,
   SET_USER_BIO,
   SET_USER_BIO_SUCCESS,
+  GET_MY_BIO,
+  GET_MY_BIO_LOADING,
   GET_EMAIL_SUCCESS,
   GET_EMAIL_LOADING,
   CHANGE_EMAIL,
@@ -24,6 +26,8 @@ const initialState = {
   allUsersAndAvatarsLoading: false,
   usersAndAvatars: [],
   setBioSuccess: false,
+  bio: "",
+  bioLoading: false,
   email: "",
   emailLoading: false,
   changeUsernameSuccess: false
@@ -58,12 +62,23 @@ export default function(state = initialState, action) {
         user: {
           ...state.user,
           bio: action.payload
-        }
+        },
+        bio: action.payload
       }
     case SET_USER_BIO_SUCCESS:
       return {
         ...state,
         setBioSuccess: true
+      }
+    case GET_MY_BIO:
+      return {
+        ...state,
+        bio: action.payload
+      }
+    case GET_MY_BIO_LOADING:
+      return {
+        ...state,
+        bioLoading: action.payload
       }
     case GET_EMAIL_SUCCESS:
       return {
@@ -75,18 +90,10 @@ export default function(state = initialState, action) {
         ...state,
         emailLoading: action.payload
       }
-    case CHANGE_USERNAME:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          username: action.payload
-        }
-      }
     case CHANGE_USERNAME_SUCCESS:
       return {
         ...state,
-        changeUsernameSuccess: true
+        changeUsernameSuccess: action.payload
       }
     default:
       return state;

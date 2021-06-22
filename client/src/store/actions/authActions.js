@@ -10,6 +10,8 @@ import {
   GET_USERS_AND_AVATARS_LOADING,
   SET_USER_BIO,
   SET_USER_BIO_SUCCESS,
+  GET_MY_BIO,
+  GET_MY_BIO_LOADING,
   GET_EMAIL_SUCCESS,
   GET_EMAIL_LOADING,
   CHANGE_EMAIL,
@@ -144,6 +146,35 @@ export const setUserBioSuccess = () => {
   };
 };
 
+export const getMyBio = (username) => dispatch => {
+  dispatch(getMyBioLoading(true));
+
+  axios
+    .get(`/api/users/bio/${username}`)
+    .then(res => {
+      dispatch(getMyBioSuccess(res.data.bio));
+      console.log(res.data.bio);
+      dispatch(getMyBioLoading(false));
+    })
+    .catch(err =>
+      console.log("could not get bio")
+    );
+};
+
+export const getMyBioSuccess = bio => {
+  return {
+    type: GET_MY_BIO,
+    payload: bio
+  };
+}
+
+export const getMyBioLoading = truthValue => {
+  return {
+    type: GET_MY_BIO_LOADING,
+    payload: truthValue
+  };
+}
+
 export const getEmail = (username) => dispatch => {
   dispatch(getEmailLoading(true));
 
@@ -155,10 +186,7 @@ export const getEmail = (username) => dispatch => {
       dispatch(getEmailLoading(false));
     })
     .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
+      console.log("could not get email")
     );
 };
 
@@ -180,8 +208,7 @@ export const changeMyUsername = userData => dispatch => {
   axios
     .put("/api/users/new-username", userData)
     .then(res => {
-      dispatch(changeUsername(res.data));
-      dispatch(changeUsernameSuccess());
+      dispatch(changeUsernameSuccess(true));
     })
     .catch(err =>
       dispatch({
@@ -198,8 +225,9 @@ export const changeUsername = username => {
   };
 };
 
-export const changeUsernameSuccess = () => {
+export const changeUsernameSuccess = truthValue => {
   return {
-    type: CHANGE_USERNAME_SUCCESS
+    type: CHANGE_USERNAME_SUCCESS,
+    payload: truthValue
   };
 };
