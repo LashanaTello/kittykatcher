@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editBio } from '../store/actions/authActions';
+import { editBio, getMyBio } from '../store/actions/authActions';
 import { getUserPosts } from '../store/actions/postActions';
 import M from 'materialize-css';
 import ImageSlider from "./ImageSlider";
@@ -25,13 +25,14 @@ class Dashboard extends Component {
     const { user } = this.props.auth;
 
     this.props.getUserPosts(user.username);
+    this.props.getMyBio(user.username);
 
     M.Tabs.init(this.Tabs);
     M.Dropdown.init(this.Dropdown);
 
     this.setState({
-      origBio: user.bio ? user.bio : "",
-      bio: user.bio,
+      origBio: this.props.auth.bio ? this.props.auth.bio : "",
+      bio: this.props.auth.bio,
       justMounted: false
     })
   }
@@ -46,10 +47,10 @@ class Dashboard extends Component {
       });
     }
 
-    if (prevProps.auth.user.bio !== user.bio) {
+    if (prevProps.auth.bio !== this.props.auth.bio) {
       this.setState({
-        bio: user.bio,
-        origBio: user.bio
+        bio: this.props.auth.bio,
+        origBio: this.props.auth.bio
       });
     }
   }
@@ -104,6 +105,7 @@ class Dashboard extends Component {
 
   render() {
     const { user } = this.props.auth;
+    console.log(this.props.auth);
 
     return (
       <div style={{ height: "75vh" }} className="container">
@@ -143,7 +145,7 @@ class Dashboard extends Component {
                   id="bio"
                   className="bio-size"
                   maxLength="450"
-                  placeholder={(user.bio !== '') ? user.bio : "Add a bio!"}
+                  placeholder={(this.props.auth.bio !== '') ? this.props.auth.bio : "Add a bio!"}
                   value={this.state.bio}
                   disabled={this.state.isBioDisabled}
                   onChange={this.handleChange}
@@ -280,6 +282,7 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   getUserPosts: PropTypes.func.isRequired,
   editBio: PropTypes.func.isRequired,
+  getMyBio: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   posts: PropTypes.object.isRequired
 };
@@ -289,4 +292,4 @@ const mapStateToProps = state => ({
   posts: state.posts
 });
 
-export default connect(mapStateToProps, { getUserPosts, editBio })(withRouter(Dashboard));
+export default connect(mapStateToProps, { getUserPosts, editBio, getMyBio })(withRouter(Dashboard));
