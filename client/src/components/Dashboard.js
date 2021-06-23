@@ -38,8 +38,6 @@ class Dashboard extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { user } = this.props.auth;
-
     if (!this.state.displayingAllPosts && !this.props.posts.allOfAUsersPostsLoading && !this.state.justMounted) {
       allOfMyPosts = this.props.posts.allOfAUsersPosts;
       this.setState({
