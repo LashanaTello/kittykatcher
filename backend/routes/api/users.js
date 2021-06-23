@@ -139,6 +139,7 @@ router.put("/bio", (req, res) => {
   });
 });
 
+// get bio of user
 router.get("/bio/:username", (req, res) => {
   User.findOne({ username: req.params.username }, "bio -_id", (err, bio) => {
     if (err) {
@@ -149,6 +150,7 @@ router.get("/bio/:username", (req, res) => {
   });
 });
 
+// get email of user
 router.get("/email/:username", (req, res) => {
   User.findOne({ username: req.params.username }, "email -_id", (err, email) => {
     if (err) {
@@ -169,6 +171,24 @@ router.put("/new-username", (req, res) => {
   }
 
   User.findOneAndUpdate({ email: req.body.email }, { username: req.body.newUsername }, { new: true, fields: '-_id username' }).then(user => {
+    if (!user) {
+      return res.status(404).json({ usernotfound: "Invalid credentials" });
+    }
+
+    res.status(200).json(user);
+  });
+});
+
+// change email of user
+router.put("/new-email", (req, res) => {
+  const { errors, isValid } = validateChangeEmailInput(req.body);
+
+  //Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  User.findOneAndUpdate({ email: req.body.email }, { email: req.body.newEmail }, { new: true, fields: '-_id email' }).then(user => {
     if (!user) {
       return res.status(404).json({ usernotfound: "Invalid credentials" });
     }

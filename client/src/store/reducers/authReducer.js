@@ -9,10 +9,8 @@ import {
   GET_MY_BIO_LOADING,
   GET_EMAIL_SUCCESS,
   GET_EMAIL_LOADING,
-  CHANGE_EMAIL,
   CHANGE_EMAIL_SUCCESS,
   CHANGE_USERNAME_SUCCESS,
-  CHANGE_PASSWORD,
   CHANGE_PASSWORD_SUCCESS
 } from '../actions/types';
 
@@ -29,7 +27,8 @@ const initialState = {
   bioLoading: false,
   email: "",
   emailLoading: false,
-  changeUsernameSuccess: false
+  changeUsernameSuccess: false,
+  changeEmailSuccess: false
 };
 
 export default function(state = initialState, action) {
@@ -93,6 +92,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         changeUsernameSuccess: action.payload
+      }
+    case CHANGE_EMAIL_SUCCESS:
+      return {
+        ...state,
+        changeEmailSuccess: action.payload
       }
     default:
       return state;

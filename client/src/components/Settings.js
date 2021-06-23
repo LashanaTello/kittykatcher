@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getEmail, changeMyUsername, logoutUser } from '../store/actions/authActions';
+import { getEmail, changeMyUsername, logoutUser, changeMyEmail } from '../store/actions/authActions';
+
+const successMessage = <div className="center"><span className="green-text">SUCCESS!</span> You will be logged out in 3 seconds...</div>;
 
 class Settings extends Component {
   state = {
@@ -11,8 +13,12 @@ class Settings extends Component {
     changePasswordShown: false,
     newUsername: "",
     newUsername2: "",
+    oldEmail: "",
+    newEmail: "",
+    newEmail2: "",
     success: false,
-    initiateNewUsername: false
+    initiateNewUsername: false,
+    initiateNewEmail: false
   }
 
   componentDidMount() {
@@ -21,14 +27,21 @@ class Settings extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { user } = this.props.auth;
-
     // wait for email to load
     if (!this.props.auth.emailLoading) {
       console.log(this.props.auth.email)
     }
 
-    if ((this.state.initiateNewUsername == true) && (prevProps.auth.changeUsernameSuccess !== this.props.auth.changeUsernameSuccess)) {
+    if ((this.state.initiateNewUsername === true) && (prevProps.auth.changeUsernameSuccess !== this.props.auth.changeUsernameSuccess)) {
+      this.setState({
+        success: !this.state.success
+      });
+      setTimeout(() => {
+        this.props.logoutUser()
+      }, 3000);
+    }
+
+    if ((this.state.initiateNewEmail === true) && (prevProps.auth.changeEmailSuccess !== this.props.auth.changeEmailSuccess)) {
       this.setState({
         success: !this.state.success
       });
@@ -93,6 +106,22 @@ class Settings extends Component {
     this.props.changeMyUsername(userData);
   }
 
+  handleEmailSubmit = (e) => {
+    e.preventDefault();
+
+    //const { user } = this.props.auth;
+    const userData = {
+      email: this.props.auth.email,
+      newEmail: this.state.newEmail,
+      newEmail2: this.state.newEmail2
+    };
+
+    this.setState({
+      initiateNewEmail: !this.state.initiateNewEmail
+    })
+    this.props.changeMyEmail(userData);
+  }
+
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
@@ -145,6 +174,9 @@ class Settings extends Component {
               <div className="my-modal" style={{ height: "375px", width: "850px"}}>
                 <div className="row">
                   <button className="btn-small right" onClick={this.closeClicked}><i className="material-icons">clear</i></button>
+                  {
+                    this.state.success && successMessage
+                  }
                   <div className="col s12">
                     <p className="col s3 offset-s1 right-align">Old Email:</p>
                     <p className="col s6">
@@ -169,7 +201,7 @@ class Settings extends Component {
                       </label>
                     </p>
                   </div>
-                  <button className="col s2 offset-s5 btn center-align">Confirm</button>
+                  <button className="col s2 offset-s5 btn center-align" onClick={this.handleEmailSubmit}>Confirm</button>
                 </div>
               </div>
               <div className="dim-background"></div>
@@ -183,7 +215,7 @@ class Settings extends Component {
                 <div className="row">
                   <button className="btn-small right" onClick={this.closeClicked}><i className="material-icons">clear</i></button>
                   {
-                    this.state.success && (<div className="center"><span className="green-text">SUCCESS!</span> You will be logged out in 3 seconds...</div>)
+                    this.state.success && successMessage
                   }
                   <div className="col s12">
                     <p className="col s3 offset-s1 right-align">New Username:</p>
@@ -254,6 +286,7 @@ Settings.propTypes = {
   auth: PropTypes.object.isRequired,
   getEmail: PropTypes.func.isRequired,
   changeMyUsername: PropTypes.func.isRequired,
+  changeMyEmail: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired
 };
 
@@ -261,4 +294,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getEmail, changeMyUsername, logoutUser })(withRouter(Settings));
+export default connect(mapStateToProps, { getEmail, changeMyUsername, logoutUser, changeMyEmail })(withRouter(Settings));

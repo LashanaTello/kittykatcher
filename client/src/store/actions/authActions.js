@@ -14,10 +14,8 @@ import {
   GET_MY_BIO_LOADING,
   GET_EMAIL_SUCCESS,
   GET_EMAIL_LOADING,
-  CHANGE_EMAIL,
   CHANGE_EMAIL_SUCCESS,
   CHANGE_USERNAME_SUCCESS,
-  CHANGE_PASSWORD,
   CHANGE_PASSWORD_SUCCESS,
   USER_LOGGED_OUT
 } from './types';
@@ -226,6 +224,27 @@ export const changeMyUsername = userData => dispatch => {
 export const changeUsernameSuccess = truthValue => {
   return {
     type: CHANGE_USERNAME_SUCCESS,
+    payload: truthValue
+  };
+};
+
+export const changeMyEmail = userData => dispatch => {
+  axios
+    .put("/api/users/new-email", userData)
+    .then(res => {
+      dispatch(changeEmailSuccess(true));
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const changeEmailSuccess = truthValue => {
+  return {
+    type: CHANGE_EMAIL_SUCCESS,
     payload: truthValue
   };
 };
