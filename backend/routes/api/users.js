@@ -168,7 +168,7 @@ router.put("/new-username", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername }, { new: true, fields: '-_id username' }).then(user => {
+  User.findOneAndUpdate({ email: req.body.email }, { username: req.body.newUsername }, { new: true, fields: '-_id username' }).then(user => {
     if (!user) {
       return res.status(404).json({ usernotfound: "Invalid credentials" });
     }
