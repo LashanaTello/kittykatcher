@@ -19,7 +19,8 @@ import {
   CHANGE_USERNAME,
   CHANGE_USERNAME_SUCCESS,
   CHANGE_PASSWORD,
-  CHANGE_PASSWORD_SUCCESS
+  CHANGE_PASSWORD_SUCCESS,
+  USER_LOGGED_OUT
 } from './types';
 
 // Register User
@@ -81,10 +82,15 @@ export const logoutUser = () => dispatch => {
   localStorage.removeItem("jwtToken");
   // Remove auth header for future requests
   setAuthToken(false);
-  // Set current user to empty object {} which will set isAuthenticated to false
-  dispatch(setCurrentUser({}));
+  // Reset state completely which will log out user
+  dispatch(logoutReset());
 };
 
+export const logoutReset = () => {
+  return {
+    type: USER_LOGGED_OUT
+  };
+};
 
 // Get All Users With Their Avatars
 export const getUsersAndAvatars = () => dispatch => {
@@ -216,13 +222,6 @@ export const changeMyUsername = userData => dispatch => {
         payload: err.response.data
       })
     );
-};
-
-export const changeUsername = username => {
-  return {
-    type: CHANGE_USERNAME,
-    payload: username
-  };
 };
 
 export const changeUsernameSuccess = truthValue => {
