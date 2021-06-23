@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getEmail } from '../store/actions/authActions';
+import { getEmail, changeMyUsername, logoutUser } from '../store/actions/authActions';
 
 class Settings extends Component {
   state = {
     changeEmailShown: false,
     changeUsernameShown: false,
-    changePasswordShown: false
+    changePasswordShown: false,
+    newUsername: "",
+    newUsername2: "",
+    success: false,
+    initiateNewUsername: false
   }
 
   componentDidMount() {
@@ -22,6 +26,15 @@ class Settings extends Component {
     // wait for email to load
     if (!this.props.auth.emailLoading) {
       console.log(this.props.auth.email)
+    }
+
+    if ((this.state.initiateNewUsername == true) && (prevProps.auth.changeUsernameSuccess !== this.props.auth.changeUsernameSuccess)) {
+      this.setState({
+        success: !this.state.success
+      });
+      setTimeout(() => {
+        this.props.logoutUser()
+      }, 3000);
     }
   }
 
@@ -63,9 +76,33 @@ class Settings extends Component {
     }
   }
 
+  handleUsernameSubmit = (e) => {
+    e.preventDefault();
+
+    const { user } = this.props.auth;
+    const userData = {
+      email: this.props.auth.email,
+      username: user.username,
+      newUsername: this.state.newUsername,
+      newUsername2: this.state.newUsername2
+    };
+
+    this.setState({
+      initiateNewUsername: !this.state.initiateNewUsername
+    })
+    this.props.changeMyUsername(userData);
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    })
+    console.log(e.target.value)
+  }
+
   render() {
     const { user } = this.props.auth;
-    console.log(this.props.auth.email);
+    console.log(this.props.auth);
 
     return (
       <div className="container">
@@ -82,7 +119,7 @@ class Settings extends Component {
         <div className="row">
           <div className="col s12">
             <p className="col s3 right-align">Email Address:</p>
-            <p className="col s5">Your email</p>
+            <p className="col s5">{this.props.auth.email}</p>
             <button className="btn col s2" onClick={this.showEmailForm}>Change Email</button>
           </div>
           <div className="col s12">
@@ -90,6 +127,7 @@ class Settings extends Component {
             <p className="col s5">{user.username}</p>
             <button className="btn col s2" onClick={this.showUsernameForm}>Change Username</button>
           </div>
+          <div className=""></div>
           <div className="col s12">
             <p className="col s3 right-align">Password:</p>
             <p className="col s5">*****</p>
@@ -111,7 +149,7 @@ class Settings extends Component {
                     <p className="col s3 offset-s1 right-align">Old Email:</p>
                     <p className="col s6">
                       <label>
-                        <input type="text" name="oldEmail" onChange={this.handleInputChange} required />
+                        <input type="text" id="oldEmail" onChange={this.handleChange} required />
                       </label>
                     </p>
                   </div>
@@ -119,7 +157,7 @@ class Settings extends Component {
                     <p className="col s3 offset-s1 right-align">New Email:</p>
                     <p className="col s6">
                       <label>
-                        <input type="text" name="newEmail" onChange={this.handleInputChange} required />
+                        <input type="text" id="newEmail" onChange={this.handleChange} required />
                       </label>
                     </p>
                   </div>
@@ -127,7 +165,7 @@ class Settings extends Component {
                     <p className="col s3 offset-s1 right-align">Confirm New Email:</p>
                     <p className="col s6">
                       <label>
-                        <input type="text" name="newEmail2" onChange={this.handleInputChange} required />
+                        <input type="text" id="newEmail2" onChange={this.handleChange} required />
                       </label>
                     </p>
                   </div>
@@ -144,11 +182,14 @@ class Settings extends Component {
               <div className="my-modal" style={{ height: "300px", width: "850px"}}>
                 <div className="row">
                   <button className="btn-small right" onClick={this.closeClicked}><i className="material-icons">clear</i></button>
+                  {
+                    this.state.success && (<div className="center"><span className="green-text">SUCCESS!</span> You will be logged out in 3 seconds...</div>)
+                  }
                   <div className="col s12">
                     <p className="col s3 offset-s1 right-align">New Username:</p>
                     <p className="col s6">
                       <label>
-                        <input type="text" name="newUsername" onChange={this.handleInputChange} required />
+                        <input type="text" id="newUsername" onChange={this.handleChange} required />
                       </label>
                     </p>
                   </div>
@@ -156,11 +197,11 @@ class Settings extends Component {
                     <p className="col s3 offset-s1 right-align">Confirm New Username:</p>
                     <p className="col s6">
                       <label>
-                        <input type="text" name="newUsername2" onChange={this.handleInputChange} required />
+                        <input type="text" id="newUsername2" onChange={this.handleChange} required />
                       </label>
                     </p>
                   </div>
-                  <button className="col s2 offset-s5 btn center-align">Confirm</button>
+                  <button className="col s2 offset-s5 btn center-align" onClick={this.handleUsernameSubmit}>Confirm</button>
                 </div>
               </div>
               <div className="dim-background"></div>
@@ -177,7 +218,7 @@ class Settings extends Component {
                     <p className="col s3 offset-s1 right-align">Old Password:</p>
                     <p className="col s6">
                       <label>
-                        <input type="text" name="oldPassword" onChange={this.handleInputChange} required />
+                        <input type="text" id="oldPassword" onChange={this.handleChange} required />
                       </label>
                     </p>
                   </div>
@@ -185,7 +226,7 @@ class Settings extends Component {
                     <p className="col s3 offset-s1 right-align">New Password:</p>
                     <p className="col s6">
                       <label>
-                        <input type="text" name="newPassword" onChange={this.handleInputChange} required />
+                        <input type="text" id="newPassword" onChange={this.handleChange} required />
                       </label>
                     </p>
                   </div>
@@ -193,7 +234,7 @@ class Settings extends Component {
                     <p className="col s3 offset-s1 right-align">Confirm New Password:</p>
                     <p className="col s6">
                       <label>
-                        <input type="text" name="newPassword2" onChange={this.handleInputChange} required />
+                        <input type="text" id="newPassword2" onChange={this.handleChange} required />
                       </label>
                     </p>
                   </div>
@@ -211,11 +252,13 @@ class Settings extends Component {
 
 Settings.propTypes = {
   auth: PropTypes.object.isRequired,
-  getEmail: PropTypes.func.isRequired
+  getEmail: PropTypes.func.isRequired,
+  changeMyUsername: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  auth: state.auth
 });
 
-export default connect(mapStateToProps, { getEmail })(withRouter(Settings));
+export default connect(mapStateToProps, { getEmail, changeMyUsername, logoutUser })(withRouter(Settings));
