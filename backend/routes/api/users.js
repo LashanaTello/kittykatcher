@@ -197,6 +197,7 @@ router.put("/new-email", (req, res) => {
   });
 });
 
+// change password of user
 router.put("/new-password", (req, res, next) => {
   // Form validation
   const { errors, isValid } = validateChangePasswordInput(req.body);
