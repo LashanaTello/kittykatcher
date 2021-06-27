@@ -248,3 +248,24 @@ export const changeEmailSuccess = truthValue => {
     payload: truthValue
   };
 };
+
+export const changePassword = userData => dispatch => {
+  axios
+    .put("/api/users/new-password", userData)
+    .then(res => {
+      dispatch(changePasswordSuccess(true));
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const changePasswordSuccess = truthValue => {
+  return {
+    type: CHANGE_PASSWORD_SUCCESS,
+    payload: truthValue
+  };
+};

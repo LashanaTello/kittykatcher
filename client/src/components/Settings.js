@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getEmail, changeMyUsername, logoutUser, changeMyEmail } from '../store/actions/authActions';
+import { getEmail, changeMyUsername, logoutUser, changeMyEmail, changePassword } from '../store/actions/authActions';
 
 const successMessage = <div className="center"><span className="green-text">SUCCESS!</span> You will be logged out in 3 seconds...</div>;
 
@@ -16,9 +16,13 @@ class Settings extends Component {
     oldEmail: "",
     newEmail: "",
     newEmail2: "",
+    oldPassword: "",
+    newPassword: "",
+    newPassword2: "",
     success: false,
     initiateNewUsername: false,
-    initiateNewEmail: false
+    initiateNewEmail: false,
+    initiateNewPassword: false
   }
 
   componentDidMount() {
@@ -42,6 +46,15 @@ class Settings extends Component {
     }
 
     if ((this.state.initiateNewEmail === true) && (prevProps.auth.changeEmailSuccess !== this.props.auth.changeEmailSuccess)) {
+      this.setState({
+        success: !this.state.success
+      });
+      setTimeout(() => {
+        this.props.logoutUser()
+      }, 3000);
+    }
+
+    if ((this.state.initiateNewPassword === true) && (prevProps.auth.changePasswordSuccess !== this.props.auth.changePasswordSuccess)) {
       this.setState({
         success: !this.state.success
       });
@@ -120,6 +133,23 @@ class Settings extends Component {
       initiateNewEmail: !this.state.initiateNewEmail
     })
     this.props.changeMyEmail(userData);
+  }
+
+  handlePasswordSubmit = (e) => {
+    e.preventDefault();
+
+    const { user } = this.props.auth;
+    const userData = {
+      email: this.props.auth.email,
+      password: this.state.oldPassword,
+      newPassword: this.state.newPassword,
+      newPassword2: this.state.newPassword2
+    };
+
+    this.setState({
+      initiateNewPassword: !this.state.initiateNewPassword
+    })
+    this.props.changePassword(userData);
   }
 
   handleChange = (e) => {
@@ -246,6 +276,9 @@ class Settings extends Component {
               <div className="my-modal" style={{ height: "375px", width: "850px"}}>
                 <div className="row">
                   <button className="btn-small right" onClick={this.closeClicked}><i className="material-icons">clear</i></button>
+                  {
+                    this.state.success && successMessage
+                  }
                   <div className="col s12">
                     <p className="col s3 offset-s1 right-align">Old Password:</p>
                     <p className="col s6">
@@ -270,7 +303,7 @@ class Settings extends Component {
                       </label>
                     </p>
                   </div>
-                  <button className="col s2 offset-s5 btn center-align">Confirm</button>
+                  <button className="col s2 offset-s5 btn center-align" onClick={this.handlePasswordSubmit}>Confirm</button>
                 </div>
               </div>
               <div className="dim-background"></div>
@@ -287,6 +320,7 @@ Settings.propTypes = {
   getEmail: PropTypes.func.isRequired,
   changeMyUsername: PropTypes.func.isRequired,
   changeMyEmail: PropTypes.func.isRequired,
+  changePassword: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired
 };
 
@@ -294,4 +328,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getEmail, changeMyUsername, logoutUser, changeMyEmail })(withRouter(Settings));
+export default connect(mapStateToProps, { getEmail, changeMyUsername, logoutUser, changeMyEmail, changePassword })(withRouter(Settings));

@@ -28,7 +28,8 @@ const initialState = {
   email: "",
   emailLoading: false,
   changeUsernameSuccess: false,
-  changeEmailSuccess: false
+  changeEmailSuccess: false,
+  changePasswordSuccess: false
 };
 
 export default function(state = initialState, action) {
@@ -97,6 +98,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         changeEmailSuccess: action.payload
+      }
+    case CHANGE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        changePasswordSuccess: action.payload
       }
     default:
       return state;
