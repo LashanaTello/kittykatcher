@@ -197,4 +197,50 @@ router.put("/new-email", (req, res) => {
   });
 });
 
+router.put("/new-password", (req, res, next) => {
+  // Form validation
+  const { errors, isValid } = validateChangePasswordInput(req.body);
+
+  // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  // Find user by email
+  User.findOne({ email: req.body.email }).then(user => {
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ emailnotfound: "Invalid credentials" }); /*remember to change this*/
+    }
+
+    // Check password
+    bcrypt.compare(req.body.password, user.password).then(isMatch => {
+      if (isMatch) {
+        next()
+      } else {
+        return res
+          .status(400)
+          .json({ passwordincorrect: "Invalid credentials" }); /*remember to change this*/
+      }
+    });
+  });
+}, (req, res) => {
+  var theNewPassword = req.body.newPassword;
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(theNewPassword, salt, (err, hash) => {
+      if (err) throw err;
+      theNewPassword = hash;
+
+      //  store new password in db
+      User.findOneAndUpdate({ email: req.body.email }, { password: theNewPassword }, { new: true }).then(user => {
+        if (!user) {
+          return res.status(404).json({ emailnotfound: "Invalid credentials" });
+        }
+
+        res.status(200).json(user);
+      });
+    });
+  });
+});
+
 module.exports = router;
