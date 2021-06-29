@@ -158,9 +158,9 @@ class Dashboard extends Component {
         <div className="row">
           <div className="add-spacing col s12">
             <ul ref={Tabs => { this.Tabs = Tabs; }} className="tabs">
-              <li key={"a"} className="tab col s4"><a href="#test1">Your Posts</a></li>
-              <li key={"b"} className="tab col s4"><a href="#test2">Claimed Posts</a></li>
-              <li key={"c"} className="tab col s4"><a href="#test3">Favorited Posts</a></li>
+              <li key={"a"} className="tab col s4"><a href="#my-posts">Your Posts</a></li>
+              <li key={"b"} className="tab col s4"><a href="#claimed-posts">Claimed Posts</a></li>
+              <li key={"c"} className="tab col s4"><a href="#favorite-posts">Favorited Posts</a></li>
             </ul>
           </div>
           <div className="col s4">
@@ -174,62 +174,70 @@ class Dashboard extends Component {
              <li key={"5"}><a href="#!">Status</a></li>
             </ul>
           </div>
-          <div id="test1" className="add-spacing col s12 center-align">
-            {allOfMyPosts.map((post,key) => {
-              return (
-                <a href="#">
-                  <div key={post.datePosted} className="col s12 m4">
-                    <div className="card blue-grey dashboard-card">
-                      <div className="card-content white-text">
-                        <div className="row">
-                          <div className="col s12 offset-s4 top-right-corner">New York City, NY</div>
-                          <div className="card-title">{post.title}</div>
-                          <div className="col s12">
-                            <ImageSlider images={post.pics} />
-                          </div>
-                          <div className="details">
-                            <div>
-                              <ul className="col s4 left-align">
-                                <li className="">Age:</li>
-                                <li className="indent">{post.age}</li>
-                              </ul>
-                              <ul className="col s4 left-align">
-                                <li className="">Sex:</li>
-                                <li className="indent">{post.sex}</li>
-                              </ul>
-                              <ul className="col s4 left-align">
-                                <li className="">Friendly?:</li>
-                                <li className="indent">{post.friendly}</li>
-                              </ul>
+          <div id="my-posts" className="add-spacing col s12 center-align">
+            {
+              allOfMyPosts.length == 0 ? (
+                <div className="col s12 center">
+                  You haven't made any posts
+                </div>
+              ) : (
+                allOfMyPosts.map((post,key) => {
+                  return (
+                    <a href="#">
+                      <div key={post.datePosted} className="col s12 m4">
+                        <div className="card blue-grey dashboard-card">
+                          <div className="card-content white-text">
+                            <div className="row">
+                              <div className="col s12 offset-s4 top-right-corner">New York City, NY</div>
+                              <div className="card-title">{post.title}</div>
+                              <div className="col s12">
+                                <ImageSlider images={post.pics} />
+                              </div>
+                              <div className="details">
+                                <div>
+                                  <ul className="col s4 left-align">
+                                    <li className="">Age:</li>
+                                    <li className="indent">{post.age}</li>
+                                  </ul>
+                                  <ul className="col s4 left-align">
+                                    <li className="">Sex:</li>
+                                    <li className="indent">{post.sex}</li>
+                                  </ul>
+                                  <ul className="col s4 left-align">
+                                    <li className="">Friendly?:</li>
+                                    <li className="indent">{post.friendly}</li>
+                                  </ul>
+                                </div>
+                                <div className="col s12">
+                                  <ul className="col s6 left-align">
+                                    <li className="">Fur Color:</li>
+                                    <li className="indent">{post.furColors.join(", ")}</li>
+                                  </ul>
+                                  <ul className="col s6 left-align">
+                                    <li className="">Fur Pattern:</li>
+                                    <li className="indent">{post.furPattern}</li>
+                                  </ul>
+                                </div>
+                                <ul className="col s12 left-align">
+                                  <li className="">Other Info:</li>
+                                  <li className="indent">{post.otherInfo ? post.otherInfo : "No extra details provided"}</li>
+                                </ul>
+                              </div>
+                              <div className="col s12 offset-s4 bottom-half">{new Date(post.dateOfLastStatusChange).toDateString()}</div>
+                              <div className="col s6 pull-s1">{new Date(post.datePosted).toDateString()}</div>
+                              <div className="col s6 push-s1">{post.status}</div>
                             </div>
-                            <div className="col s12">
-                              <ul className="col s6 left-align">
-                                <li className="">Fur Color:</li>
-                                <li className="indent">{post.furColors.join(", ")}</li>
-                              </ul>
-                              <ul className="col s6 left-align">
-                                <li className="">Fur Pattern:</li>
-                                <li className="indent">{post.furPattern}</li>
-                              </ul>
-                            </div>
-                            <ul className="col s12 left-align">
-                              <li className="">Other Info:</li>
-                              <li className="indent">{post.otherInfo ? post.otherInfo : "No extra details provided"}</li>
-                            </ul>
                           </div>
-                          <div className="col s12 offset-s4 bottom-half">{new Date(post.dateOfLastStatusChange).toDateString()}</div>
-                          <div className="col s6 pull-s1">{new Date(post.datePosted).toDateString()}</div>
-                          <div className="col s6 push-s1">{post.status}</div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </a>
-              );
-            })}
+                    </a>
+                  );
+                })
+              )
+            }
           </div>
-          <div id="test2" className="add-spacing col s12 center-align">No posts claimed</div>
-          <div id="test3" className="add-spacing col s12 center-align">No posts favorited</div>
+          <div id="claimed-posts" className="add-spacing col s12 center-align">No posts claimed</div>
+          <div id="favorite-posts" className="add-spacing col s12 center-align">No posts favorited</div>
         </div>
       </div>
     );
