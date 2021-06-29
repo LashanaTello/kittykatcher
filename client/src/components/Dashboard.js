@@ -177,7 +177,7 @@ class Dashboard extends Component {
           <div id="my-posts" className="add-spacing col s12 center-align">
             {
               allOfMyPosts.length == 0 ? (
-                <div className="col s12 center">
+                <div className="col s12 center-align">
                   You haven't made any posts
                 </div>
               ) : (
