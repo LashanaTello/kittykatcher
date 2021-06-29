@@ -8,8 +8,6 @@ import M from 'materialize-css';
 import ImageSlider from "./ImageSlider";
 
 
-var allOfMyPosts = [];
-
 class Dashboard extends Component {
   state = {
     bio: "",
@@ -39,9 +37,9 @@ class Dashboard extends Component {
 
   componentDidUpdate(prevProps) {
     if (!this.state.displayingAllPosts && !this.props.posts.allOfAUsersPostsLoading && !this.state.justMounted) {
-      allOfMyPosts = this.props.posts.allOfAUsersPosts;
       this.setState({
-        displayingAllPosts: true
+        displayingAllPosts: true,
+        thisUsersPosts: this.props.posts.allOfAUsersPosts
       });
     }
 
@@ -176,12 +174,12 @@ class Dashboard extends Component {
           </div>
           <div id="my-posts" className="add-spacing col s12 center-align">
             {
-              allOfMyPosts.length == 0 ? (
+              this.state.thisUsersPosts.length == 0 ? (
                 <div className="col s12 center-align">
                   You haven't made any posts
                 </div>
               ) : (
-                allOfMyPosts.map((post,key) => {
+                this.state.thisUsersPosts.map((post,key) => {
                   return (
                     <a href="#">
                       <div key={post.datePosted} className="col s12 m4">
