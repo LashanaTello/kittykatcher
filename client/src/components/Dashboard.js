@@ -16,7 +16,9 @@ class Dashboard extends Component {
     editIconName: "edit",
     thisUsersPosts: [],
     justMounted: true,
-    displayingAllPosts: false
+    displayingAllPosts: false,
+    cardsToShow: 6,
+    expanded: false
   }
 
   componentDidMount() {
@@ -99,6 +101,19 @@ class Dashboard extends Component {
     });
   }
 
+  showMore = () => {
+    if (this.state.cardsToShow < this.state.thisUsersPosts.length) {
+      this.setState({
+        cardsToShow: this.state.cardsToShow + 3
+      })
+    }
+    if (this.state.cardsToShow >= this.state.thisUsersPosts.length) {
+      this.setState({
+        expanded: true
+      })
+    }
+  }
+
   render() {
     const { user } = this.props.auth;
     console.log(this.props.auth);
@@ -179,7 +194,7 @@ class Dashboard extends Component {
                   You haven't made any posts
                 </div>
               ) : (
-                this.state.thisUsersPosts.map((post,key) => {
+                this.state.thisUsersPosts.slice(0, this.state.cardsToShow).map((post,key) => {
                   return (
                     <a href="#">
                       <div key={post.datePosted} className="col s12 m4">
@@ -231,6 +246,21 @@ class Dashboard extends Component {
                     </a>
                   );
                 })
+              )
+            }
+            {
+              this.state.expanded ? (
+                <div className="row">
+                  <div className="col s12">
+                    <button className="btn col s12 m4 offset-m4 disabled">Showing All Posts</button>
+                  </div>
+                </div>
+              ) : (
+                <div className="row">
+                  <div className="col s12">
+                    <button className="btn col s12 m4 offset-m4" onClick={this.showMore}>Show More</button>
+                  </div>
+                </div>
               )
             }
           </div>
