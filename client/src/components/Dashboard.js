@@ -114,6 +114,22 @@ class Dashboard extends Component {
     }
   }
 
+  sortTitleAscending = () => {
+    var posts = this.state.thisUsersPosts;
+    posts.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+    this.setState({
+      thisUsersPosts: posts
+    })
+  }
+
+  sortTitleDescending = () => {
+    var posts = this.state.thisUsersPosts;
+    posts.sort((a, b) => (b.title > a.title) ? 1 : ((a.title > b.title) ? -1 : 0))
+    this.setState({
+      thisUsersPosts: posts
+    })
+  }
+
   render() {
     const { user } = this.props.auth;
     console.log(this.props.auth);
@@ -180,16 +196,15 @@ class Dashboard extends Component {
             <button ref={Dropdown => { this.Dropdown = Dropdown; }} className='dropdown-trigger btn' data-target='dropdown1'>Sort By</button>
 
             <ul id='dropdown1' className='dropdown-content'>
-             <li key={"1"}><a href="#!">Date (New to Old)</a></li>
-             <li key={"2"}><a href="#!">Date (Old to New)</a></li>
-             <li key={"3"}><a href="#!">Title (A-Z)</a></li>
-             <li key={"4"}><a href="#!">Title (Z-A)</a></li>
-             <li key={"5"}><a href="#!">Status</a></li>
+             <li key={"1"} className="my-dropdown-list">Date (New to Old)</li>
+             <li key={"2"} className="my-dropdown-list">Date (Old to New)</li>
+             <li key={"3"} className="my-dropdown-list" onClick={this.sortTitleAscending}>Title (A-Z)</li>
+             <li key={"4"} className="my-dropdown-list" onClick={this.sortTitleDescending}>Title (Z-A)</li>
             </ul>
           </div>
           <div id="my-posts" className="add-spacing col s12 center-align">
             {
-              this.state.thisUsersPosts.length == 0 ? (
+              this.state.thisUsersPosts.length === 0 ? (
                 <div className="col s12 center-align">
                   You haven't made any posts
                 </div>
@@ -249,7 +264,7 @@ class Dashboard extends Component {
               )
             }
             {
-              this.state.thisUsersPosts.length != 0 && (
+              this.state.thisUsersPosts.length !== 0 && (
               this.state.expanded ? (
                 <div className="row">
                   <div className="col s12">

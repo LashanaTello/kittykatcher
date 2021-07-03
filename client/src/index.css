@@ -416,3 +416,8 @@ other popup colors I like
 .move-down {
   margin-top: 50px;
 }
+
+.my-dropdown-list {
+  display: block;
+  padding: 14px 16px;
+}
