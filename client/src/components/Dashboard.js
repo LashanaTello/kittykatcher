@@ -228,54 +228,52 @@ class Dashboard extends Component {
               ) : (
                 this.state.thisUsersPosts.slice(0, this.state.cardsToShow).map((post,key) => {
                   return (
-                    <a href="#">
-                      <div key={post.datePosted} className="col s12 m4">
-                        <div className="card blue-grey dashboard-card">
-                          <div className="card-content white-text">
-                            <div className="row">
-                              <div className="col s12 offset-s4 top-right-corner">New York City, NY</div>
-                              <div className="card-title">{post.title}</div>
-                              <div className="col s12">
-                                <ImageSlider images={post.pics} />
-                              </div>
-                              <div className="details">
-                                <div>
-                                  <ul className="col s4 left-align">
-                                    <li className="">Age:</li>
-                                    <li className="indent">{post.age}</li>
-                                  </ul>
-                                  <ul className="col s4 left-align">
-                                    <li className="">Sex:</li>
-                                    <li className="indent">{post.sex}</li>
-                                  </ul>
-                                  <ul className="col s4 left-align">
-                                    <li className="">Friendly?:</li>
-                                    <li className="indent">{post.friendly}</li>
-                                  </ul>
-                                </div>
-                                <div className="col s12">
-                                  <ul className="col s6 left-align">
-                                    <li className="">Fur Color:</li>
-                                    <li className="indent">{post.furColors.join(", ")}</li>
-                                  </ul>
-                                  <ul className="col s6 left-align">
-                                    <li className="">Fur Pattern:</li>
-                                    <li className="indent">{post.furPattern}</li>
-                                  </ul>
-                                </div>
-                                <ul className="col s12 left-align">
-                                  <li className="">Other Info:</li>
-                                  <li className="indent">{post.otherInfo ? post.otherInfo : "No extra details provided"}</li>
+                    <div key={post.datePosted} className="col s12 m4">
+                      <div className="card blue-grey dashboard-card" style={{"height": "61vh"}}>
+                        <div className="card-content white-text">
+                          <div className="row">
+                            <div className="col s12 offset-s4 top-right-corner">New York City, NY</div>
+                            <div className="card-title">{post.title}</div>
+                            <div className="col s12" style={{"height": "14.86vh"}}>
+                              <ImageSlider images={post.pics} />
+                            </div>
+                            <div className="details">
+                              <div>
+                                <ul className="col s4 left-align">
+                                  <li className="">Age:</li>
+                                  <li className="indent">{post.age}</li>
+                                </ul>
+                                <ul className="col s4 left-align">
+                                  <li className="">Sex:</li>
+                                  <li className="indent">{post.sex}</li>
+                                </ul>
+                                <ul className="col s4 left-align">
+                                  <li className="">Friendly?:</li>
+                                  <li className="indent">{post.friendly}</li>
                                 </ul>
                               </div>
-                              <div className="col s12 offset-s4 bottom-half">{new Date(post.dateOfLastStatusChange).toDateString()}</div>
-                              <div className="col s6 pull-s1">{new Date(post.datePosted).toDateString()}</div>
-                              <div className="col s6 push-s1">{post.status}</div>
+                              <div className="col s12">
+                                <ul className="col s6 left-align">
+                                  <li className="">Fur Color:</li>
+                                  <li className="indent">{post.furColors.join(", ")}</li>
+                                </ul>
+                                <ul className="col s6 left-align">
+                                  <li className="">Fur Pattern:</li>
+                                  <li className="indent">{post.furPattern}</li>
+                                </ul>
+                              </div>
+                              <ul className="col s12 left-align">
+                                <li className="">Other Info:</li>
+                                <li className="indent">{post.otherInfo ? post.otherInfo : "No extra details provided"}</li>
+                              </ul>
                             </div>
+                            <div className="col s12 offset-s4 bottom-half">{new Date(post.dateOfLastStatusChange).toDateString()}</div>
+                            <div className="col s6 pull-s1">{new Date(post.datePosted).toDateString()}</div>
+                            <div className="col s6 push-s1">{post.status}</div>
                           </div>
                         </div>
                       </div>
-                    </a>
+                    </div>
                   );
                 })
               )
