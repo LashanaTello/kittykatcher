@@ -150,6 +150,9 @@ class Dashboard extends Component {
     const { user } = this.props.auth;
     console.log(this.props.auth);
     console.log(this.state.thisUsersPosts)
+    var myDate = new Intl.DateTimeFormat("en" , {dateStyle: "short"});
+    let options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+
 
     return (
       <div style={{ height: "75vh" }} className="container">
@@ -267,9 +270,9 @@ class Dashboard extends Component {
                                 <li className="indent">{post.otherInfo ? post.otherInfo : "No extra details provided"}</li>
                               </ul>
                             </div>
-                            <div className="col s12 offset-s4 bottom-half">{new Date(post.dateOfLastStatusChange).toDateString()}</div>
-                            <div className="col s6 pull-s1">{new Date(post.datePosted).toDateString()}</div>
-                            <div className="col s6 push-s1">{post.status}</div>
+                            <div className="col s12 offset-s4 bottom-half">{post.status} since</div>
+                            <div className="col s6 pull-s1"><span style={{ "color": "black" }}>Posted</span> {new Date(post.datePosted).toLocaleString([], options)}</div>
+                            <div className="col s6 push-s2">{new Date(post.dateOfLastStatusChange).toLocaleString([], options)}</div>
                           </div>
                         </div>
                       </div>
