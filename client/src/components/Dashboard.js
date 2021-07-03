@@ -249,6 +249,7 @@ class Dashboard extends Component {
               )
             }
             {
+              this.state.thisUsersPosts.length != 0 && (
               this.state.expanded ? (
                 <div className="row">
                   <div className="col s12">
@@ -261,7 +262,7 @@ class Dashboard extends Component {
                     <button className="btn col s12 m4 offset-m4" onClick={this.showMore}>Show More</button>
                   </div>
                 </div>
-              )
+              ))
             }
           </div>
           <div id="claimed-posts" className="add-spacing col s12 center-align">No posts claimed</div>
