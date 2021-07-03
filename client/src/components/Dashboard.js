@@ -130,9 +130,26 @@ class Dashboard extends Component {
     })
   }
 
+  sortDateOldToNew = () => {
+    var posts = this.state.thisUsersPosts;
+    posts.sort((a, b) => (a.datePosted > b.datePosted) ? 1 : ((b.datePosted > a.datePosted) ? -1 : 0))
+    this.setState({
+      thisUsersPosts: posts
+    })
+  }
+
+  sortDateNewToOld = () => {
+    var posts = this.state.thisUsersPosts;
+    posts.sort((a, b) => (b.datePosted > a.datePosted) ? 1 : ((a.datePosted > b.datePosted) ? -1 : 0))
+    this.setState({
+      thisUsersPosts: posts
+    })
+  }
+
   render() {
     const { user } = this.props.auth;
     console.log(this.props.auth);
+    console.log(this.state.thisUsersPosts)
 
     return (
       <div style={{ height: "75vh" }} className="container">
@@ -192,12 +209,12 @@ class Dashboard extends Component {
               <li key={"c"} className="tab col s4"><a href="#favorite-posts">Favorited Posts</a></li>
             </ul>
           </div>
-          <div className="col s4">
-            <button ref={Dropdown => { this.Dropdown = Dropdown; }} className='dropdown-trigger btn' data-target='dropdown1'>Sort By</button>
+          <div className="" style={{"padding": "0 1.5rem"}}>
+            <button ref={Dropdown => { this.Dropdown = Dropdown; }} className='dropdown-trigger btn col s2' data-target='dropdown1'>Sort By</button>
 
             <ul id='dropdown1' className='dropdown-content'>
-             <li key={"1"} className="my-dropdown-list">Date (New to Old)</li>
-             <li key={"2"} className="my-dropdown-list">Date (Old to New)</li>
+             <li key={"1"} className="my-dropdown-list" onClick={this.sortDateNewToOld}>Date Posted (New to Old)</li>
+             <li key={"2"} className="my-dropdown-list" onClick={this.sortDateOldToNew}>Date Posted (Old to New)</li>
              <li key={"3"} className="my-dropdown-list" onClick={this.sortTitleAscending}>Title (A-Z)</li>
              <li key={"4"} className="my-dropdown-list" onClick={this.sortTitleDescending}>Title (Z-A)</li>
             </ul>
