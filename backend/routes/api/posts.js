@@ -62,7 +62,6 @@ router.get('/userposts/:username', (req, res) => {
   Post.find({ posterUsername: req.params.username }, (err, usersPosts) => {
     if (err) {
       res.send("Something went wrong");
-      next();
     }
     res.status(200).json(usersPosts)
   });
