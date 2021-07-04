@@ -156,7 +156,6 @@ export const getMyBio = (username) => dispatch => {
     .get(`/api/users/bio/${username}`)
     .then(res => {
       dispatch(getMyBioSuccess(res.data.bio));
-      console.log(res.data.bio);
       dispatch(getMyBioLoading(false));
     })
     .catch(err =>
