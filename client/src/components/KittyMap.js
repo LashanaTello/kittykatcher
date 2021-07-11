@@ -47,12 +47,6 @@ class SearchControl extends MapControl {
   }
 }
 
-
-const mapStyle = {
-  height: '85vh',
-  width: '100%'
-};
-
 var myIcon = L.icon({
   iconUrl: 'https://image.flaticon.com/icons/svg/616/616430.svg',
   iconSize: [41, 30],
@@ -84,6 +78,9 @@ class KittyMap extends Component {
   constructor() {
     super();
     this.state = {
+      mapStyle: {
+        height: '85vh'
+      },
       lat: 40.7645,
       lng: -73.9602,
       zoom: 13,
@@ -91,7 +88,8 @@ class KittyMap extends Component {
       displayForm: false,
       displayCantPost: false,
       justMounted: true,
-      displayingAllPosts: false
+      displayingAllPosts: false,
+      showingSidebar: false
     };
   }
 
@@ -249,6 +247,9 @@ class KittyMap extends Component {
   }
 
   handleClick = (e) => {
+    this.setState({
+      showingSidebar: true
+    })
     const map = this.refs.map.leafletElement;
     if (map != null) {
       if (newMarker !== undefined) {
@@ -278,6 +279,12 @@ class KittyMap extends Component {
     }
   }
 
+  showSidebar = () => {
+    this.setState({
+      showingSidebar: true
+    })
+  }
+
   render() {
     if (this.state.justMounted || this.props.posts.isLoading || this.props.auth.allUsersAndAvatarsLoading) {
       return (
@@ -288,15 +295,15 @@ class KittyMap extends Component {
       const GeoSearch = withLeaflet(SearchControl);
 
       return (
-        <div className="container">
+        <div className="">
           <div className="row">
             <div className="center col s12">
               <h5 className="sub-heading-font">Add A Kitty To The Map!</h5>
             </div>
           </div>
-          <div className="row">
-            <div className="col s12">
-              <Map ref="map" style={mapStyle} center={position} zoom={this.state.zoom} maxZoom={this.state.maxZoom} onClick={this.handleClick}>
+          <div className="map-container">
+            <div className="my-map">
+              <Map ref="map" style={this.state.mapStyle} center={position} zoom={this.state.zoom} maxZoom={this.state.maxZoom} onClick={this.handleClick}>
                 <TileLayer
                   attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
                   url={`https://api.mapbox.com/styles/v1/lashanatello/ckfdma8al0rc119p7z99atbnx/tiles/256/{z}/{x}/{y}@2x?access_token=${mapboxToken}`}
@@ -309,6 +316,7 @@ class KittyMap extends Component {
                 </Marker>
               </Map>
             </div>
+            { this.state.showingSidebar && <div className="my-sidebar"></div>}
           </div>
           <div className="divider"></div>
           <div className="row">

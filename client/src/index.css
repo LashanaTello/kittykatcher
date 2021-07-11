@@ -421,3 +421,25 @@ other popup colors I like
   display: block;
   padding: 14px 16px;
 }
+
+.map-container {
+  display: flex;
+  height: auto;
+  width: auto;
+}
+
+.my-map {
+  width: 100%;
+  flex: 1;
+}
+
+.my-sidebar {
+  height: 85.4%;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  right: 0;
+  left: 80%;
+  background:rgba(0,0,0,1);
+  z-index: 1000;
+}
