@@ -434,12 +434,12 @@ other popup colors I like
 }
 
 .my-sidebar {
-  height: 85.4%;
+  height: 85.1%;
   position: absolute;
   margin: 0;
   padding: 0;
   right: 0;
   left: 80%;
-  background:rgba(0,0,0,1);
+  background: #f49f0a;
   z-index: 1000;
 }
