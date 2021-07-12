@@ -8,11 +8,20 @@ class MapSidebar extends Component {
   }
 
   render() {
-    return (
-      <div className="my-sidebar">
-      <button className="right btn-small" onClick={this.closeClicked}><i className="material-icons">clear</i></button>
-      </div>
-    );
+    if (this.props.showCant) {
+      return (
+        <div className="my-sidebar">
+          <button className="right btn-small" onClick={this.closeClicked}><i className="material-icons">clear</i></button>
+          <CantPost />
+        </div>
+      );
+    } else {
+      return (
+        <div className="my-sidebar">
+          <button className="right btn-small" onClick={this.closeClicked}><i className="material-icons">clear</i></button>
+        </div>
+      );
+    }
   }
 }
 

@@ -320,7 +320,7 @@ class KittyMap extends Component {
                 </Marker>
               </Map>
             </div>
-            { this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar}/>}
+            { (this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar} showCant={this.state.displayCantPost}/>) }
           </div>
           <div className="divider"></div>
           <div className="row">
@@ -329,7 +329,7 @@ class KittyMap extends Component {
                 this.state.displayForm && <button className="right btn-small grey" onClick={this.display}><i className="material-icons">clear</i></button>
               }
               {
-                (this.state.displayCantPost && <CantPost />) || (!this.state.displayCantPost && this.state.displayForm && <KittyPostForm coords={newMarker.getLatLng()} />)
+                (!this.state.displayCantPost && this.state.displayForm && <KittyPostForm coords={newMarker.getLatLng()} />)
               }
             </div>
           </div>
