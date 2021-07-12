@@ -11,7 +11,8 @@ class MapSidebar extends Component {
     return (
       <div className="my-sidebar">
         <button className="right btn-small" onClick={this.closeClicked}><i className="material-icons">clear</i></button>
-        { this.props.showCant && <CantPost/> }
+        { this.props.showCant && <CantPost /> }
+        { this.props.showForm && <KittyPostForm coords={this.props.newCoords} /> }
       </div>
     );
   }

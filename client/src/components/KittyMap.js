@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Map, Marker, Popup, TileLayer, MapControl, withLeaflet } from 'react-leaflet';
-import KittyPostForm from './KittyPostForm';
-import CantPost from './CantPost';
 import MapLoading from './MapLoading';
 import MapSidebar from './MapSidebar';
 import { getUsersAndAvatars } from '../store/actions/authActions';
@@ -90,7 +88,8 @@ class KittyMap extends Component {
       displayCantPost: false,
       justMounted: true,
       displayingAllPosts: false,
-      showingSidebar: false
+      showingSidebar: false,
+      newMarkerCoords: {}
     };
   }
 
@@ -261,17 +260,15 @@ class KittyMap extends Component {
       }
       newMarker = new L.Marker(e.latlng, {icon: myIcon});
       map.addLayer(newMarker);
+      this.setState({
+        newMarkerCoords: newMarker.getLatLng()
+      })
       map.flyTo(newMarker.getLatLng(), 16)
     }
     if (this.props.auth.isAuthenticated) {
       newMarker.bindPopup("Fill out the form below to add a cat to the map at this spot!", customOptionsForDefaultPopup).openPopup();
       if (!this.state.displayForm) {
         this.display();
-      }
-      if (this.state.displayCantPost) {
-        this.setState({
-          displayCantPost: !this.displayCantPost //pay attention to this
-        })
       }
     } else {
       newMarker.bindPopup("Whoa there!", cantPostOptions).openPopup();
@@ -320,18 +317,8 @@ class KittyMap extends Component {
                 </Marker>
               </Map>
             </div>
-            { (this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar} showCant={this.state.displayCantPost}/>) }
-          </div>
-          <div className="divider"></div>
-          <div className="row">
-            <div className="col s12">
-              {
-                this.state.displayForm && <button className="right btn-small grey" onClick={this.display}><i className="material-icons">clear</i></button>
-              }
-              {
-                (!this.state.displayCantPost && this.state.displayForm && <KittyPostForm coords={newMarker.getLatLng()} />)
-              }
-            </div>
+            { this.state.displayForm ? (this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar} showForm={this.state.displayForm} newCoords={this.state.newMarkerCoords} />) :
+              (this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar} showCant={this.state.displayCantPost} />) }
           </div>
         </div>
       );

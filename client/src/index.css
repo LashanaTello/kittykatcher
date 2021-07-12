@@ -442,4 +442,5 @@ other popup colors I like
   left: 80%;
   background: #f49f0a;
   z-index: 1000;
+  overflow-y: scroll; 
 }
