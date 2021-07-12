@@ -114,6 +114,9 @@ class KittyMap extends Component {
       this.setState({
         displayingAllPosts: true
       });
+      L.control.attribution({
+        position: 'bottomleft'
+      }).addTo(map);
     }
   }
 
