@@ -7,6 +7,7 @@ import { Map, Marker, Popup, TileLayer, MapControl, withLeaflet } from 'react-le
 import KittyPostForm from './KittyPostForm';
 import CantPost from './CantPost';
 import MapLoading from './MapLoading';
+import MapSidebar from './MapSidebar';
 import { getUsersAndAvatars } from '../store/actions/authActions';
 import { getAllPosts } from '../store/actions/postActions';
 import { mapboxToken, locationIqToken } from '../apiKeys';
@@ -284,7 +285,7 @@ class KittyMap extends Component {
 
   showSidebar = () => {
     this.setState({
-      showingSidebar: true
+      showingSidebar: !this.state.showingSidebar
     })
   }
 
@@ -319,7 +320,7 @@ class KittyMap extends Component {
                 </Marker>
               </Map>
             </div>
-            { this.state.showingSidebar && <div className="my-sidebar"></div>}
+            { this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar}/>}
           </div>
           <div className="divider"></div>
           <div className="row">
