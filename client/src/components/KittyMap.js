@@ -67,11 +67,64 @@ var cantPostOptions = {
   'className': 'cant-post-popup'
 };
 
-var posts = {};
 var usersAndAvs = [];
 
 const defaultCatPic = "https://kittykatcher.s3.amazonaws.com/default_kitty.svg";
 const defaultClaimerPic = "https://image.flaticon.com/icons/svg/763/763778.svg";
+
+L.Marker.include({
+    posterUsername: "",
+    claimerUsername: "",
+    myTitle: "",
+    images: [],
+    age: "",
+    sex: "",
+    furColors: [],
+    furPattern: [],
+    friendly: "",
+    status: "",
+    datePosted: "",
+    dateClaimed: "",
+    dateOfLastStatusChange: "",
+    otherInfo: "",
+
+    setAllProperties: function(feature) {
+      this.posterUsername = feature.properties.user;
+      this.claimerUsername = feature.properties.claimer;
+      this.myTitle = feature.properties.title;
+      this.images = feature.properties.images;
+      this.age = feature.properties.age;
+      this.sex = feature.properties.sex;
+      this.furColors = feature.properties.furColors;
+      this.furPattern = feature.properties.furPattern;
+      this.friendly = feature.properties.friendly;
+      this.status = feature.properties.status;
+      this.datePosted = feature.properties.datePosted;
+      this.dateClaimed = feature.properties.dateClaimed;
+      this.dateOfLastStatusChange = feature.properties.dateOfLastStatusChange;
+      this.otherInfo = feature.properties.otherInfo;
+    },
+
+    getAllProperties: function() {
+      const post = {
+        posterUsername: this.posterUsername,
+        claimerUsername: this.claimerUsername,
+        myTitle: this.myTitle,
+        images: this.images,
+        age: this.age,
+        sex: this.sex,
+        furColors: this.furColors,
+        furPattern: this.furPattern,
+        friendly: this.friendly,
+        status: this.status,
+        datePosted: this.datePosted,
+        dateClaimed: this.dateClaimed,
+        dateOfLastStatusChange: this.dateOfLastStatusChange,
+        otherInfo: this.otherInfo
+      };
+      return post;
+    }
+});
 
 class KittyMap extends Component {
   constructor() {
@@ -89,7 +142,9 @@ class KittyMap extends Component {
       justMounted: true,
       displayingAllPosts: false,
       showingSidebar: false,
-      newMarkerCoords: {}
+      newMarkerCoords: {},
+      currentPost: {},
+      markerClicked: false
     };
   }
 
@@ -125,11 +180,20 @@ class KittyMap extends Component {
       var feat = this.createGeoJSON(post);
       L.geoJSON(feat, {
         pointToLayer: (feature, latlng) => {
-          return L.marker(latlng, {icon: myIcon}).bindPopup(`
+          let aMarker = new L.marker(latlng, {icon: myIcon});
+          aMarker.setAllProperties(feature);
+          aMarker.bindPopup(`
             ${this.createPopup(feature)}
           `, customOptions).on('click', () => {
-              map.flyTo(latlng, 16)
+              map.flyTo(latlng, 16);
+              this.toggleOff();
+              this.setState({
+                currentPost: aMarker.getAllProperties(),
+                showingSidebar: true,
+                markerClicked: true
+              });
           });
+          return aMarker;
         }
       }).addTo(map);
     });
@@ -243,17 +307,12 @@ class KittyMap extends Component {
     return feature;
   };
 
-  display = () => {
-    this.setState({
-      displayForm: !this.state.displayForm
-    });
-  }
-
   handleClick = (e) => {
     this.setState({
       showingSidebar: true
     })
     const map = this.refs.map.leafletElement;
+
     if (map != null) {
       if (newMarker !== undefined) {
         map.removeLayer(newMarker);
@@ -265,18 +324,33 @@ class KittyMap extends Component {
       })
       map.flyTo(newMarker.getLatLng(), 16)
     }
+
     if (this.props.auth.isAuthenticated) {
-      newMarker.bindPopup("Fill out the form below to add a cat to the map at this spot!", customOptionsForDefaultPopup).openPopup();
-      if (!this.state.displayForm) {
-        this.display();
-      }
-    } else {
-      newMarker.bindPopup("Whoa there!", cantPostOptions).openPopup();
-      if (!this.state.displayCantPost) {
+      newMarker.on('click', () => {
+        map.flyTo(newMarker.getLatLng(), 16)
+        this.toggleOff();
         this.setState({
-          displayCantPost: !this.displayCantPost //pay attention to this
-        })
-      }
+          displayForm: true
+        });
+      });
+      newMarker.bindPopup('Fill out the form to the right to add a cat to the map at this spot!', customOptionsForDefaultPopup).openPopup();
+      this.toggleOff();
+      this.setState({
+        displayForm: !this.state.displayForm
+      });
+    } else {
+      newMarker.on('click', () => {
+          map.flyTo(newMarker.getLatLng(), 16)
+          this.toggleOff();
+          this.setState({
+            displayCantPost: true
+          });
+      });
+      newMarker.bindPopup("Whoa there!", cantPostOptions).openPopup();
+      this.toggleOff();
+      this.setState({
+        displayCantPost: !this.displayCantPost
+      })
     }
   }
 
@@ -286,7 +360,20 @@ class KittyMap extends Component {
     })
   }
 
+  toggleOff = () => {
+    //  only one thing can be shown in the sidebar at a time so only one
+    //  should be true at a time
+    //  make everything false first and then the one that needs to be true
+    //  will set itself to true
+    this.setState({
+      displayForm: false,
+      displayCantPost: false,
+      markerClicked: false
+    })
+  }
+
   render() {
+    console.log(this.state.currentPost);
     if (this.state.justMounted || this.props.posts.isLoading || this.props.auth.allUsersAndAvatarsLoading) {
       return (
         <MapLoading />
@@ -317,8 +404,11 @@ class KittyMap extends Component {
                 </Marker>
               </Map>
             </div>
-            { this.state.displayForm ? (this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar} showForm={this.state.displayForm} newCoords={this.state.newMarkerCoords} />) :
-              (this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar} showCant={this.state.displayCantPost} />) }
+            {
+              this.state.markerClicked ? (this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar} markerClicked={this.state.markerClicked} post={this.state.currentPost} />) :
+              (this.state.displayForm ? (this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar} showForm={this.state.displayForm} newCoords={this.state.newMarkerCoords} />) :
+                (this.state.showingSidebar && <MapSidebar showSidebar={this.showSidebar} showCant={this.state.displayCantPost} />))
+            }
           </div>
         </div>
       );
